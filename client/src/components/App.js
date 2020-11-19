@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function App() {
-  const [bacon, setBacon] = useState(null);
+  const [imge, setImages] = useState([]);
 
   useEffect(() => {
-    fetch('/bacon')
-      .then(res => res.json())
-      .then(data => setBacon(data));
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => setImages(data.data));
   }, []);
 
-  return <div>{bacon ? bacon : `...where's my stuff?...`}</div>;
+  //returns all of the product images
+  return (
+    <>
+      {imge.map((image) => {
+        return <img src={image.imageSrc} />;
+      })}
+    </>
+  );
 }
 
 export default App;
