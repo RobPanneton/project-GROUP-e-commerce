@@ -102,7 +102,7 @@ express()
     }
   })
 
-  //returns individual company based on comapny id
+  //returns LETS GO BITCH --
   .get("/companies/:id", (req, res) => {
     const { id } = req.params;
     const reqCompany = companies.find((company) => company._id === Number(id));
