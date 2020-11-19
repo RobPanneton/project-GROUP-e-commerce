@@ -102,7 +102,6 @@ express()
     }
   })
 
-
   //returns individual company based on comapny id as param
   .get("/companies/:id", (req, res) => {
     const { id } = req.params;
