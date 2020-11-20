@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 
-import reducer from "./recducers";
+import reducer from "./reducers";
 
 const configureStore = (initialState) => {
   const store = createStore(
