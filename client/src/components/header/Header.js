@@ -217,11 +217,12 @@ const DropDownMenu = styled.div`
 
   @keyframes dropDown {
     from {
-        top: -1000px;
+      top: -1000px;
     }
     to {
-        top: 54px;
+      top: 54px;
     }
+  }
 `;
 
 const DropDownBackground = styled.div`
