@@ -14,6 +14,7 @@ export const COLORS = {
 
 export const MARGINS = {
   mobileSides: "11px",
+  mobileTop: "108px",
 };
 
 export const BORDER_RADIUS = {
