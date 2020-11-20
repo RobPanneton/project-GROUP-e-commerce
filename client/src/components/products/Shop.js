@@ -43,7 +43,7 @@ export const Shop = () => {
                   </ProductImage>
                   <ProductName>{item.name}</ProductName>
                   <ProductCategoryButton>
-                    <ProductCategoryText>{item.category}</ProductCategoryText>
+                    <ProductCategoryText>Add to Cart</ProductCategoryText>
                   </ProductCategoryButton>
                 </ItemContent>
               </ItemCard>
