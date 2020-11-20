@@ -6,10 +6,13 @@ import searchIcon from "../../assets/search-icon.svg";
 import cartIcon from "../../assets/cart-icon.svg";
 import styled from "styled-components";
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
+import { Cart } from "../modals/Cart";
 
 export const Header = () => {
   //To be put in the store
   const [isHamOpen, setIsHamOpen] = React.useState(false);
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
+
   return (
     <HeaderContainer>
       <LogoContainer exact to="/">
@@ -39,8 +42,13 @@ export const Header = () => {
       </SearchAndHamMenu>
       <LoginAndCart>
         <StylessButton>Login</StylessButton>
-        <StylessButton>
+        <StylessButton
+          onClick={() => setIsCartOpen(!isCartOpen)}
+          style={{ position: "relative" }}
+        >
           <img src={cartIcon} alt="Click to view cart" />
+          <CartItemCounter>0</CartItemCounter>
+          {/* make CartItemCounter conditinally render (if at least 1 item in cart) */}
         </StylessButton>
       </LoginAndCart>
       {isHamOpen && (
@@ -102,6 +110,7 @@ export const Header = () => {
           </DropDownMenu>
         </DropDownBackground>
       )}
+      <Cart setIsCartOpen={setIsCartOpen} isCartOpen={isCartOpen} />
     </HeaderContainer>
   );
 };
@@ -175,6 +184,20 @@ const HamBar = styled.div`
   height: 2px;
   width: 30px;
   background: ${COLORS.navyBlue};
+`;
+
+const CartItemCounter = styled.div`
+  background: ${COLORS.babyBlue};
+  color: #fff;
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SearchBarContainer = styled.div`
