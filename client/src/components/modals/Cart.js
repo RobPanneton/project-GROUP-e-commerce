@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 
 import cart from "../../assets/cart-icon-black.svg";
 import { getCartItems } from "../../reducers/user-reducer";
-import { useSelector, useDispatch } from "react-redux";
+
 import { removeItem } from "../../actions";
 
 export const Cart = ({ isCartOpen, setIsCartOpen }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const cartItems = useSelector(getCartItems);
   const [products, setProducts] = React.useState(null);
@@ -33,6 +36,10 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
         Number(cartItems[item].price.slice(1)) * cartItems[item].quantity;
     });
   }
+
+  const proceedToCheckout = () => {
+    history.push(`/checkout`);
+  };
 
   return (
     <>
@@ -101,7 +108,9 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
               })}
             <div style={{ textAlign: "center" }}>
               <Total>Total: ${totalCart.toFixed(2)}</Total>
-              <ProceedToCheckout>Proceed to checkout</ProceedToCheckout>
+              <ProceedToCheckout onClick={proceedToCheckout}>
+                Proceed to checkout
+              </ProceedToCheckout>
             </div>
           </CartContainer>
         </BackgroundCart>

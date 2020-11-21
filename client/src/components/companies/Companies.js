@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-import {COLORS, MARGINS, BORDER_RADIUS} from '../../constants';
+import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
 
 export const Companies = () => {
-  const [companies, setCompanies] = useState([])
+  const [companies, setCompanies] = useState([]);
   const history = useHistory();
 
   const getCompanies = async () => {
     try {
       const response = await fetch("/companies/");
       const json = await response.json();
-      if (response.ok){
+      if (response.ok) {
         setCompanies(json.data);
       } else {
         // else bad response (not caught as error)
-        console.error("error fetching companies")
+        console.error("error fetching companies");
         // send to error page             TODO
       }
     } catch (error) {
@@ -30,26 +30,31 @@ export const Companies = () => {
 
   const redirectToCompanyPage = (id) => {
     history.push(`/companies/${id}`);
-  }
+  };
 
   return (
     <Wrapper>
-      {(companies && companies.length > 0) && (
-      <> 
-      {companies.map((company) => {return (
-      <CompanyWrapper onClick={() => redirectToCompanyPage(company._id)}>{company.name}</CompanyWrapper>)})}
-      </>
-     )}
-
+      {companies && companies.length > 0 && (
+        <>
+          {companies.map((company) => {
+            return (
+              <CompanyWrapper
+                onClick={() => redirectToCompanyPage(company._id)}
+              >
+                {company.name}
+              </CompanyWrapper>
+            );
+          })}
+        </>
+      )}
     </Wrapper>
-
   );
 };
 
 const Wrapper = styled.div`
-    padding-top: ${MARGINS.mobileTop};
-    margin-left: ${MARGINS.mobileSides};
-    margin-right: ${MARGINS.mobileSides};
+  padding-top: ${MARGINS.mobileTop};
+  margin-left: ${MARGINS.mobileSides};
+  margin-right: ${MARGINS.mobileSides};
 `;
 
 const CompanyWrapper = styled.button`
