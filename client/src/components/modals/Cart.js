@@ -21,16 +21,9 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
       .then((arr) => setProducts(arr.data));
   }, []);
 
-  console.log(products);
-
-  useEffect(() => {
-    console.log(cartItems);
-  });
-
   let totalCart = 0;
 
   if (cartItems) {
-    console.log(cartItems);
     Object.keys(cartItems).forEach((item) => {
       totalCart +=
         Number(cartItems[item].price.slice(1)) * cartItems[item].quantity;
