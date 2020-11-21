@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { COLORS } from "../../constants";
 import { FooterFilter } from "./FooterFilter";
+import { Loader } from "../Loader";
 
 export const Shop = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export const Shop = () => {
   return (
     <>
       <Wrapper>
+        {!items && <Loader />}
         {items &&
           items.map((item) => {
             return (
