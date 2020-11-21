@@ -7,11 +7,21 @@ import cartIcon from "../../assets/cart-icon.svg";
 import styled from "styled-components";
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
 import { Cart } from "../modals/Cart";
+import { useSelector } from "react-redux";
+import { getCartItems } from "../../reducers/user-reducer";
 
 export const Header = () => {
-  //To be put in the store
+  const cartItems = useSelector(getCartItems);
   const [isHamOpen, setIsHamOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
+
+  let amountOfItems = 0;
+
+  if (cartItems) {
+    Object.keys(cartItems).forEach((item) => {
+      amountOfItems++;
+    });
+  }
 
   return (
     <HeaderContainer>
@@ -47,7 +57,7 @@ export const Header = () => {
           style={{ position: "relative" }}
         >
           <img src={cartIcon} alt="Click to view cart" />
-          <CartItemCounter>0</CartItemCounter>
+          <CartItemCounter>{amountOfItems}</CartItemCounter>
           {/* make CartItemCounter conditinally render (if at least 1 item in cart) */}
         </StylessButton>
       </LoginAndCart>
