@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { addItem } from "../../actions";
+import { useDispatch } from "react-redux";
 
 import { COLORS } from "../../constants";
 import { FooterFilter } from "./FooterFilter";
 
 export const Shop = () => {
+  const dispatch = useDispatch();
+
   const [items, setItems] = useState(null);
 
   const getItems = async () => {
@@ -42,9 +46,15 @@ export const Shop = () => {
                     </ProductPriceWrapper>
                   </ProductImage>
                   <ProductName>{item.name}</ProductName>
-                  <ProductCategoryButton>
-                    <ProductCategoryText>Add to Cart</ProductCategoryText>
-                  </ProductCategoryButton>
+                  <AddToCart>
+                    <CartBtnText
+                      onClick={() => {
+                        dispatch(addItem(item));
+                      }}
+                    >
+                      Add to Cart
+                    </CartBtnText>
+                  </AddToCart>
                 </ItemContent>
               </ItemCard>
             );
@@ -98,14 +108,14 @@ const ProductName = styled.span`
   text-align: center;
 `;
 
-const ProductCategoryButton = styled.button`
+const AddToCart = styled.button`
   margin-top: 11px;
   border: none;
   border-radius: 24px;
   padding: 12px 32px;
 `;
 
-const ProductCategoryText = styled.span`
+const CartBtnText = styled.span`
   font-size: 15px;
   font-weight: 600;
 `;

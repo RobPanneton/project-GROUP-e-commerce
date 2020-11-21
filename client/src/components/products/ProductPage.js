@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
+import { addItem } from "../../actions";
 
 export const ProductPage = () => {
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   const [item, setItem] = useState(null);
   const [company, setCompany] = useState(null);
 
@@ -35,6 +37,7 @@ export const ProductPage = () => {
 
   useEffect(() => {
     getCompany();
+    console.log(item);
   }, [item]);
 
   return (
@@ -55,9 +58,13 @@ export const ProductPage = () => {
                 }}
               ></ProductImage>
 
-              <ProductCategoryButton>
-                <ProductCategoryText>Add to Cart</ProductCategoryText>
-              </ProductCategoryButton>
+              <AddToCart
+                onClick={() => {
+                  dispatch(addItem(item));
+                }}
+              >
+                <CartBtnText>Add to Cart</CartBtnText>
+              </AddToCart>
               <StockAndPrice>
                 <Stock>{item.numInStock} in stock</Stock>
                 <Price>Price: {item.price}</Price>
@@ -119,14 +126,14 @@ const ProductName = styled.span`
   text-align: center;
 `;
 
-const ProductCategoryButton = styled.button`
+const AddToCart = styled.button`
   margin-top: 23px;
   border: none;
   border-radius: 24px;
   padding: 12px 32px;
 `;
 
-const ProductCategoryText = styled.span`
+const CartBtnText = styled.span`
   font-size: 15px;
   font-weight: 600;
 `;
