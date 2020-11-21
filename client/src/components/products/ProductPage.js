@@ -37,7 +37,6 @@ export const ProductPage = () => {
 
   useEffect(() => {
     getCompany();
-    console.log(item);
   }, [item]);
 
   return (

@@ -17,7 +17,6 @@ export const Shop = () => {
       const response = await fetch(`/products`);
       const json = await response.json();
       setItems(json.data);
-      console.log(json.data);
     } catch (error) {
       return;
     }

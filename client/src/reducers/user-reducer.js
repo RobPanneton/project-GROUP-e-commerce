@@ -9,7 +9,6 @@ export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_ITEM":
       const currentItem = state.cart[action.payload.name];
-      console.log(currentItem);
       return {
         ...state,
         cart: {
@@ -22,9 +21,7 @@ export const userReducer = (state = initialState, action) => {
       };
 
     case "REMOVE_ITEM":
-      console.log(action.payload);
       const stateCopy = { ...state };
-      console.log(stateCopy);
       delete stateCopy.cart[action.payload.name];
       return stateCopy;
 

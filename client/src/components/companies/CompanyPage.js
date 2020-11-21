@@ -21,7 +21,6 @@ export const CompanyPage = () => {
         console.log("company not found");
         return <Errorpage />;
       }
-      console.log({ company: json.data });
     } catch (error) {
       return;
     }
@@ -85,4 +84,3 @@ const CompanyName = styled.span`
   font-weight: 800;
   text-align: center;
 `;
-
