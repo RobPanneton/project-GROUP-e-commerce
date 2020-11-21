@@ -38,6 +38,7 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
   }
 
   const proceedToCheckout = () => {
+    setIsCartOpen(false);
     history.push(`/checkout`);
   };
 
