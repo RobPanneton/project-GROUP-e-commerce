@@ -23,6 +23,10 @@ export const Header = () => {
     });
   }
 
+  const closeHamburger = () => {
+    setIsHamOpen(!isHamOpen);
+  };
+
   return (
     <HeaderContainer>
       <LogoContainer exact to="/">
@@ -85,7 +89,7 @@ export const Header = () => {
             }}
           >
             <ListConatiner>
-              <NavLinkContainer to="/shop">
+              <NavLinkContainer to="/shop" onClick={closeHamburger}>
                 <NavItems
                   style={{
                     borderBottom: `1px solid ${COLORS.grey}`,
@@ -95,7 +99,7 @@ export const Header = () => {
                   Shop
                 </NavItems>
               </NavLinkContainer>
-              <NavLinkContainer to="/companies">
+              <NavLinkContainer to="/companies" onClick={closeHamburger}>
                 <NavItems
                   style={{
                     borderBottom: `1px solid ${COLORS.grey}`,
@@ -104,7 +108,7 @@ export const Header = () => {
                   Partner companies
                 </NavItems>
               </NavLinkContainer>
-              <NavLinkContainer to="/contact">
+              <NavLinkContainer to="/contact" onClick={closeHamburger}>
                 <NavItems
                   style={{
                     borderBottom: `1px solid ${COLORS.grey}`,
@@ -113,7 +117,7 @@ export const Header = () => {
                   Contact us
                 </NavItems>
               </NavLinkContainer>
-              <NavLinkContainer to="/about">
+              <NavLinkContainer to="/about" onClick={closeHamburger}>
                 <NavItems>About</NavItems>
               </NavLinkContainer>
             </ListConatiner>
