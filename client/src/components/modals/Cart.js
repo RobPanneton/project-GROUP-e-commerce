@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 
 import cart from "../../assets/cart-icon-black.svg";
+import { getCartItems } from "../../reducers/user-reducer";
+import { useSelector, useDispatch } from "react-redux";
+import { removeItem } from "../../actions";
 
 export const Cart = ({ isCartOpen, setIsCartOpen }) => {
-  //change to store
-
+  const dispatch = useDispatch();
+  const cartItems = useSelector(getCartItems);
   const [products, setProducts] = React.useState(null);
 
   React.useEffect(() => {
@@ -17,11 +20,17 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
 
   console.log(products);
 
+  useEffect(() => {
+    console.log(cartItems);
+  });
+
   let totalCart = 0;
 
-  if (products) {
-    products.forEach((product) => {
-      totalCart += Number(product.price.slice(1));
+  if (cartItems) {
+    console.log(cartItems);
+    Object.keys(cartItems).forEach((item) => {
+      totalCart +=
+        Number(cartItems[item].price.slice(1)) * cartItems[item].quantity;
     });
   }
 
@@ -58,10 +67,10 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
             <div style={{ textAlign: "center" }}>
               <ProceedToCheckout>Proceed to checkout</ProceedToCheckout>
             </div>
-            {products &&
-              products.map((product) => {
+            {cartItems &&
+              Object.values(cartItems).map((product) => {
                 return (
-                  <Wrapper>
+                  <Wrapper key={product._id}>
                     <ProductContainer key={product._id}>
                       <ProductImage
                         src={product.imageSrc}
@@ -74,9 +83,18 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                     <QuantityAndRemove>
                       <PriceAndQuanity>
                         <Price>{product.price} ✕</Price>
-                        <Quantity type="number" placeholder="1" />
+                        <Quantity
+                          type="number"
+                          placeholder={product.quantity}
+                        />
                       </PriceAndQuanity>
-                      <RemoveButton>remove ❌</RemoveButton>
+                      <RemoveButton
+                        onClick={() => {
+                          dispatch(removeItem(product));
+                        }}
+                      >
+                        remove ❌
+                      </RemoveButton>
                     </QuantityAndRemove>
                   </Wrapper>
                 );
