@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-import {COLORS, MARGINS, BORDER_RADIUS} from '../../constants';
-import {Errorpage} from "../errorpage/Errorpage"
-
-
+import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
+import { Errorpage } from "../errorpage/Errorpage";
 
 export const CompanyPage = () => {
   const { id } = useParams();
@@ -17,13 +15,13 @@ export const CompanyPage = () => {
     try {
       const response = await fetch(`/companies/${id}`);
       const json = await response.json();
-      if (response.ok){
+      if (response.ok) {
         setCompany(json.data);
       } else {
-        console.log("company not found")
-        return <Errorpage/>
+        console.log("company not found");
+        return <Errorpage />;
       }
-      console.log({company: json.data});
+      console.log({ company: json.data });
     } catch (error) {
       return;
     }
@@ -35,31 +33,23 @@ export const CompanyPage = () => {
 
   return (
     <Wrapper>
-      {company && (<>
-      <CompanyTop>
-      <CompanyName>{company.name}</CompanyName>
-        <CompanyCountry>{company.country}</CompanyCountry>
-      </CompanyTop>
-        <CompanyIframe>iframe TODO</CompanyIframe>
-
-        <CompanyBottom>
-        <CompanyUrl>{company.url}</CompanyUrl>
-
-
-        </CompanyBottom>
-
-
-     </> )}
-  </Wrapper>
-
-
+      {company && (
+        <>
+          <CompanyTop>
+            <CompanyName>{company.name}</CompanyName>
+            <CompanyCountry>{company.country}</CompanyCountry>
+          </CompanyTop>
+          <CompanyIframe>
+            something else here... all their products? Their favicon logo?
+          </CompanyIframe>
+          <CompanyBottom>
+            <CompanyUrl href={company.url}>{company.url}</CompanyUrl>
+          </CompanyBottom>
+        </>
+      )}
+    </Wrapper>
   );
-
-
-
-}
-
-
+};
 
 const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
@@ -67,7 +57,7 @@ const Wrapper = styled.div`
 `;
 
 const CompanyTop = styled.div`
-    padding-top: 16px;
+  padding-top: 16px;
 `;
 
 const CompanyCountry = styled.div``;
@@ -77,16 +67,17 @@ const CompanyIframe = styled.div`
   justify-content: center;
   color: ${COLORS.white};
   background-color: ${COLORS.black};
-  padding: 120px;
+  padding: 90px;
   margin: 10px 0;
-  border-radius: ${BORDER_RADIUS.mediumCorner}
-
+  border-radius: ${BORDER_RADIUS.mediumCorner};
 `;
 
 const CompanyBottom = styled.div``;
 
-const CompanyUrl = styled.div`
+const CompanyUrl = styled.a`
   font-size: small;
+  text-decoration: none;
+  color: ${COLORS.black};
 `;
 
 const CompanyName = styled.span`
@@ -95,23 +86,3 @@ const CompanyName = styled.span`
   text-align: center;
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-/* TODO
-all-companies component
-contact component
-iframe
-
-
-search tool
-
- */
