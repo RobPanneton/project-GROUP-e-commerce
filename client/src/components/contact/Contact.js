@@ -16,7 +16,6 @@ export const Contact = () => {
     if (isValid(newForm)){
       setEnableSubmit(true)
     }
-    console.log({handleChange: formData})
   }
 
   // reject if empty fields or email doensn't include "@"
@@ -32,8 +31,12 @@ export const Contact = () => {
 
   const formSubmit = (ev) => {
     ev.preventDefault();
+    ev.target.reset();
 
-    // TODO?
+    // dummy submit only, just reset form
+    // perhaps add a "thanks for contacting" modal, roughly matching cart modal
+    setFormData(blankForm)
+    setEnableSubmit(false);
   }
  
   return (<Wrapper>
@@ -79,10 +82,14 @@ const Input = styled.textarea`
   resize: none; 
   padding-top: 0.25rem;
   padding-left: 5px;
+
+  &:focus {
+    outline: none;
+    border: 2px solid ${COLORS.babyBlue};
+  }
 `;
 
-const Name = styled(Input)`
-`;
+const Name = styled(Input)``;
 
 const Email = styled(Input)``;
 
@@ -100,4 +107,10 @@ const Button = styled.button`
   margin-top: 20px;
   padding: 10px 40px;
   align-self: flex-end;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
 `;
