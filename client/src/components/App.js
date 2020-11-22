@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { About } from "./about/About";
+import { Checkout } from "./checkout/Checkout";
 import { Companies } from "./companies/Companies";
 import { CompanyPage } from "./companies/CompanyPage";
 import { Contact } from "./contact/Contact";
@@ -38,7 +39,9 @@ function App() {
         <Route path="/contact">
           <Contact />
         </Route>
-        <Route path="/checkout"></Route>
+        <Route path="/checkout">
+          <Checkout />
+        </Route>
         <Route>
           <Errorpage />
         </Route>
