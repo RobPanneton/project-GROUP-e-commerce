@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import loaderIcon from "../assets/loader-icon.svg";
+import loader from "../assets/loader.svg";
 
 export const Loader = () => {
   return (
     <Container>
       <LoaderIcon
-        src={loaderIcon}
+        src={loader}
         alt="Thanks for your patience, it won't be long."
       />
     </Container>
@@ -15,28 +15,24 @@ export const Loader = () => {
 
 const Container = styled.div`
   position: relative;
-  height: 100px;
-  perspective: 100px;
+  height: 300px;
 `;
 
 const LoaderIcon = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1) rotateX(45deg) rotateZ(0deg);
-  height: 90%;
-  animation: smallRotate 1s infinite ease-in-out;
+  transform: translate(-50%, -50%) rotateZ(0deg);
+
+  animation: smallRotate 1s infinite linear;
 
   @keyframes smallRotate {
     0% {
-      transform: translate(-50%, -50%) scale(0.5) rotateX(0deg) rotateZ(360deg);
+      transform: translate(-50%, -50%) rotateZ(0deg);
     }
 
-    50% {
-      transform: translate(-50%, -50%) scale(1) rotateX(180deg) rotateZ(0deg);
-    }
     100% {
-      transform: translate(-50%, -50%) scale(0.5) rotateX(360deg) rotateZ(0deg);
+      transform: translate(-50%, -50%) rotateZ(360deg);
     }
   }
 `;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { addItem } from "../../actions";
-import { useDispatch } from "react-redux";
+import { addItem, decreaseStock } from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartItems } from "../../reducers/user-reducer";
 
 import { COLORS } from "../../constants";
 import { FooterFilter } from "./FooterFilter";
@@ -9,6 +10,8 @@ import { Loader } from "../Loader";
 
 export const Shop = () => {
   const dispatch = useDispatch();
+
+  const cartItems = useSelector(getCartItems);
 
   const [items, setItems] = useState(null);
 
@@ -47,15 +50,27 @@ export const Shop = () => {
                     </ProductPriceWrapper>
                   </ProductImage>
                   <ProductName>{item.name}</ProductName>
-                  <AddToCart>
-                    <CartBtnText
-                      onClick={() => {
-                        dispatch(addItem(item));
+
+                  <AddToCart
+                    disabled={!item.numInStock}
+                    onClick={async () => {
+                      dispatch(addItem(item));
+                    }}
+                  >
+                    <CartBtnText>Add to Cart</CartBtnText>
+                  </AddToCart>
+                  {!item.numInStock && (
+                    <p
+                      style={{
+                        padding: "10px 0",
+                        color: "red",
+                        fontWeight: "bold",
+                        fontSize: "13px",
                       }}
                     >
-                      Add to Cart
-                    </CartBtnText>
-                  </AddToCart>
+                      out of stock 😞
+                    </p>
+                  )}
                 </ItemContent>
               </ItemCard>
             );

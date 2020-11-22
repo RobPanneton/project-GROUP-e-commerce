@@ -7,3 +7,8 @@ export const removeItem = (item) => ({
   type: "REMOVE_ITEM",
   payload: item,
 });
+
+export const increaseStock = (item) => ({
+  type: "INCREASE_STOCK",
+  payload: item,
+});

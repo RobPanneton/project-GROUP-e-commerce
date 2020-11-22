@@ -9,6 +9,7 @@ export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_ITEM":
       const currentItem = state.cart[action.payload.name];
+
       return {
         ...state,
         cart: {
@@ -16,6 +17,9 @@ export const userReducer = (state = initialState, action) => {
           [action.payload.name]: {
             ...action.payload,
             quantity: currentItem ? currentItem.quantity + 1 : 1,
+            numInStock: action.payload.numInStock
+              ? (action.payload.numInStock -= 1)
+              : null,
           },
         },
       };
