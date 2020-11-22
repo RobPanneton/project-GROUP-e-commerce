@@ -39,6 +39,7 @@ export const Companies = () => {
           {companies.map((company) => {
             return (
               <CompanyWrapper
+                key={company._id}
                 onClick={() => redirectToCompanyPage(company._id)}
               >
                 {company.name}
@@ -46,7 +47,7 @@ export const Companies = () => {
             );
           })}
         </>
-      )}
+      )}git 
     </Wrapper>
   );
 };
