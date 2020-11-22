@@ -88,6 +88,8 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                         <Quantity
                           type="number"
                           placeholder={product.quantity}
+                          min={1}
+                          max={Number(product.numInStock)}
                         />
                       </PriceAndQuanity>
                       <RemoveButton
