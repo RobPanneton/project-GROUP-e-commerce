@@ -105,7 +105,7 @@ export const Checkout = () => {
               placeholder="Full address"
             />
             <CreditcardMockUp>
-              <p>{ccNumber}</p>
+              <p>{ccNumber.match(/.{1,4}/g).join("   ")}</p>
               <p>{ccExp}</p>
             </CreditcardMockUp>
             <Label htmlFor="cc">Credit Card Number</Label>
