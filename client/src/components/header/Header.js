@@ -17,9 +17,9 @@ export const Header = () => {
 
   let amountOfItems = 0;
 
-  if (cartItems) {
+  if (Object.keys(cartItems).length > 0) {
     Object.keys(cartItems).forEach((item) => {
-      amountOfItems++;
+      amountOfItems += cartItems[item].quantity;
     });
   }
 
@@ -29,10 +29,17 @@ export const Header = () => {
 
   return (
     <HeaderContainer>
-      <LogoContainer exact to="/">
-        <img src={logo} alt="Health Watch Logo" />
-        HEALTHwatch
-      </LogoContainer>
+      <div
+        tabIndex="0"
+        onClick={() => {
+          if (isHamOpen) setIsHamOpen(false);
+        }}
+      >
+        <LogoContainer to="/">
+          <img src={logo} alt="Health Watch Logo" />
+          HEALTHwatch
+        </LogoContainer>
+      </div>
 
       <SearchAndHamMenu>
         <StylessButton onClick={() => setIsHamOpen(!isHamOpen)}>
@@ -57,11 +64,16 @@ export const Header = () => {
       <LoginAndCart>
         <StylessButton>Login</StylessButton>
         <StylessButton
-          onClick={() => setIsCartOpen(!isCartOpen)}
+          onClick={() => {
+            setIsCartOpen(!isCartOpen);
+            if (isHamOpen) setIsHamOpen(false);
+          }}
           style={{ position: "relative" }}
         >
           <img src={cartIcon} alt="Click to view cart" />
-          <CartItemCounter>{amountOfItems}</CartItemCounter>
+          {Object.keys(cartItems).length > 0 && (
+            <CartItemCounter>{amountOfItems}</CartItemCounter>
+          )}
           {/* make CartItemCounter conditinally render (if at least 1 item in cart) */}
         </StylessButton>
       </LoginAndCart>

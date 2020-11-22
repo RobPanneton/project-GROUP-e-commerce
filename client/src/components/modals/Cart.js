@@ -13,17 +13,10 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const cartItems = useSelector(getCartItems);
-  const [products, setProducts] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/products?start=0&end=3")
-      .then((obj) => obj.json())
-      .then((arr) => setProducts(arr.data));
-  }, []);
 
   let totalCart = 0;
 
-  if (cartItems) {
+  if (Object.keys(cartItems).length > 0) {
     Object.keys(cartItems).forEach((item) => {
       totalCart +=
         Number(cartItems[item].price.slice(1)) * cartItems[item].quantity;
@@ -33,6 +26,10 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
   const proceedToCheckout = () => {
     setIsCartOpen(false);
     history.push(`/checkout`);
+  };
+  const proceedToShopping = () => {
+    setIsCartOpen(false);
+    history.push(`/shop`);
   };
 
   return (
@@ -66,7 +63,11 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
               </CloseCartButton>
             </CartAndButton>
             <div style={{ textAlign: "center" }}>
-              <ProceedToCheckout>Proceed to checkout</ProceedToCheckout>
+              {Object.keys(cartItems).length > 0 && (
+                <ProceedToCheckout onClick={proceedToCheckout}>
+                  Proceed to checkout
+                </ProceedToCheckout>
+              )}
             </div>
             {cartItems &&
               Object.values(cartItems).map((product) => {
@@ -101,10 +102,22 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                 );
               })}
             <div style={{ textAlign: "center" }}>
-              <Total>Total: ${totalCart.toFixed(2)}</Total>
-              <ProceedToCheckout onClick={proceedToCheckout}>
-                Proceed to checkout
-              </ProceedToCheckout>
+              {Object.keys(cartItems).length === 0 && (
+                <div style={{ padding: "25px 0" }}>
+                  <p>You don't have any items in your cart</p>
+                  <ProceedToCheckout onClick={proceedToShopping}>
+                    Go to shop
+                  </ProceedToCheckout>
+                </div>
+              )}
+              {Object.keys(cartItems).length > 0 && (
+                <Total>Total: ${totalCart.toFixed(2)}</Total>
+              )}
+              {Object.keys(cartItems).length > 0 && (
+                <ProceedToCheckout onClick={proceedToCheckout}>
+                  Proceed to checkout
+                </ProceedToCheckout>
+              )}
             </div>
           </CartContainer>
         </BackgroundCart>
@@ -131,7 +144,7 @@ const BackgroundCart = styled.div`
 
 const CartContainer = styled.div`
   position: fixed;
-  overflow: scroll;
+  overflow-y: auto;
   width: 300px;
   max-height: 80vh;
   background: #fff;
