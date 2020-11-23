@@ -6,6 +6,7 @@ const morgan = require("morgan");
 
 const items = require("./data/items.json");
 const companies = require("./data/companies.json");
+const { search } = require("./search/search");
 
 const PORT = 4000;
 
@@ -120,6 +121,26 @@ express()
         data: reqCompany,
       });
     }
+  })
+
+  // search endpoint. See search/search.js for notes
+  .get("/search/:query", (req, res) => {
+    const { query } = req.params;
+    let searchResults = [];
+    try {
+      searchResults = search(query);
+    } catch (e) {
+      res.status(400).json({
+        status: 400,
+        message: "Search error",
+        error: e.message,
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      data: searchResults,
+    });
   })
 
   //Endpint does not exist
