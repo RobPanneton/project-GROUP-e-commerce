@@ -16,12 +16,12 @@ export const Errorpage = () => {
 // 
 const Wrapper = styled.div`
   height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;  
   align-items: center;
-  margin: 0 11px 0 11px;
+  padding-top: ${MARGINS.mobileTop};
+  margin-left: ${MARGINS.mobileSides};
+  margin-right: ${MARGINS.mobileSides};
 `;
 
 // box-shadow could be better
@@ -32,7 +32,7 @@ const Oops = styled.div`
   font-weight: 900;
   padding: 20px;
   border-radius: 25% /50%;
-  margin: 20px;
+  margin: 40px 20px;
   box-shadow: rgba(0,0,0,0.8) 0 0 10px;   
 `;
 
