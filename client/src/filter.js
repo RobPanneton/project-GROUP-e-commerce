@@ -86,8 +86,12 @@ const retrieveCompanyId = (companyName, companies) => {
       results = results.filter(p => priceToFloat(p.price) <= max)
     }
   
-    if (inStock){
-      results = results.filter(p => p.numInStock > 0);
+    if (inStock !== undefined){
+      if (inStock){
+        results = results.filter(p => p.numInStock > 0);
+      } else {
+        results = results.filter(p => p.numInStock === 0);
+      }
     }
   
     const remaining = {body_location, category}
