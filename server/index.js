@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const items = require("./data/items.json");
 const companies = require("./data/companies.json");
 const { search } = require("./search/search");
+const { filter } = require("./search/filter");
 
 const PORT = 4000;
 
@@ -140,6 +141,27 @@ express()
       status: 200,
       message: "success",
       data: searchResults,
+    });
+  })
+
+  // filter / advanced search, see search/filter.js
+  .get("/filter/:query", (req, res) => {
+    const { query } = req.params;
+    let filterResults = [];
+    try {
+      filterResults = filter(query);
+    } catch (e) {
+      console.error(e.message)
+      res.status(400).json({
+        status: 400,
+        message: "Filter error",
+        error: "filter error, check back end console",
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      data: filterResults,
     });
   })
 
