@@ -47,7 +47,7 @@ export const Companies = () => {
             );
           })}
         </>
-      )}git 
+      )}
     </Wrapper>
   );
 };
