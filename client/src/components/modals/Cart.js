@@ -7,12 +7,17 @@ import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 import cart from "../../assets/cart-icon-black.svg";
 import { getCartItems } from "../../reducers/user-reducer";
 
-import { removeItem } from "../../actions";
+import {
+  removeItem,
+  IncrementQuantity,
+  DecrementQuantity,
+  fixStockAmount,
+} from "../../actions";
 
 export const Cart = ({ isCartOpen, setIsCartOpen }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const cartItems = useSelector(getCartItems);
+  const cartItems = useSelector((state) => state?.user?.cart);
 
   let totalCart = 0;
 
@@ -30,6 +35,11 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
   const proceedToShopping = () => {
     setIsCartOpen(false);
     history.push(`/shop`);
+  };
+
+  const removeItemClick = (item) => {
+    dispatch(fixStockAmount(item));
+    dispatch(removeItem(item));
   };
 
   return (
@@ -87,14 +97,35 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                         <Price>{product.price} ✕</Price>
                         <Quantity
                           type="number"
-                          placeholder={product.quantity}
+                          value={product.quantity}
                           min={1}
                           max={Number(product.numInStock)}
+                          onChange={() => {
+                            return;
+                          }}
                         />
+                        <IncOrDec>
+                          <Inc
+                            disabled={!product?.numInStock}
+                            onClick={() => {
+                              dispatch(IncrementQuantity(product));
+                            }}
+                          >
+                            +
+                          </Inc>
+                          <Dec
+                            disabled={product?.quantity < 2}
+                            onClick={() => {
+                              dispatch(DecrementQuantity(product));
+                            }}
+                          >
+                            -
+                          </Dec>
+                        </IncOrDec>
                       </PriceAndQuanity>
                       <RemoveButton
                         onClick={() => {
-                          dispatch(removeItem(product));
+                          removeItemClick(product);
                         }}
                       >
                         remove ❌
@@ -215,6 +246,24 @@ const Quantity = styled.input`
   border: none;
   border-bottom: 2px solid ${COLORS.navyBlue};
   font-weight: 700;
+`;
+
+const IncOrDec = styled.div`
+  margin-left: 6px;
+`;
+
+const Inc = styled.button`
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
+`;
+
+const Dec = styled.button`
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  display: inline-block;
 `;
 
 const Price = styled.p`
