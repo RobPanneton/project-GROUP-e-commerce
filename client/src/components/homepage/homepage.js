@@ -35,6 +35,11 @@ const Wrapper = styled.div`
 
 const HeroImage = styled.img`
   filter: drop-shadow(30px 30px 30px rgba(77, 126, 218, 0.2));
+  z-index: -1;
+  padding-top: 10px;
+  @media (min-width: 761px) {
+    width: 450px;
+  }
 `;
 
 const HeroHeading = styled.h1`
@@ -43,6 +48,7 @@ const HeroHeading = styled.h1`
   text-align: center;
   font-size: 25px;
   line-height: 40px;
+  padding: 20px;
 
   span {
     font-family: "Montserrat Alternates", sans-serif;
@@ -58,6 +64,7 @@ const ShopNowButton = styled.button`
   font-size: 21px;
   border-radius: ${BORDER_RADIUS.mediumCorner};
   font-weight: 700;
+  margin-bottom: 20px;
   font-family: "Montserrat Alternates", sans-serif;
   cursor: pointer;
 `;
