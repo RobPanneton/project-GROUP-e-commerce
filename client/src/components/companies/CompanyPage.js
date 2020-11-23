@@ -8,6 +8,7 @@ import { Errorpage } from "../errorpage/Errorpage";
 export const CompanyPage = () => {
   const { id } = useParams();
   const [company, setCompany] = useState(null);
+  const [products, setProducts] = useState([]);
 
   // same code as other pages, could probably write a generic fetch
   // but who has time for that?
@@ -18,21 +19,53 @@ export const CompanyPage = () => {
       if (response.ok) {
         setCompany(json.data);
       } else {
-        console.log("company not found");
-        return <Errorpage />;
+        console.error("company not found");
+        return;  
       }
     } catch (error) {
       return;
     }
   };
 
+  const getProducts = async () => {
+    try {
+      const response = await fetch(`/products`);
+      const json = await response.json();
+      if (response.ok) {
+        setCompany(json.data);
+      } else {
+        console.error("error retrieving products");
+        return;  
+      }
+    } catch (error) {
+      return;
+    }
+  };
+
+
+
   useEffect(() => {
     getCompany();
   }, []);
 
+  // load all produts then filter by company
+  // obviously more efficient to filter at backend
+  // TODO
+  // useEffect(() => {
+    
+
+
+
+
+  // }, [company]);
+
+
+
+
+
   return (
     <Wrapper>
-      {company && (
+      {company ? (
         <>
           <CompanyTop>
             <CompanyName>{company.name}</CompanyName>
@@ -45,7 +78,7 @@ export const CompanyPage = () => {
             <CompanyUrl href={company.url}>{company.url}</CompanyUrl>
           </CompanyBottom>
         </>
-      )}
+      ) : <Errorpage/>}
     </Wrapper>
   );
 };
