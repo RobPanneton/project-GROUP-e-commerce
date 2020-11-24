@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 import { getCartItems } from "../../reducers/user-reducer";
-import { removeItem } from "../../actions";
+import { emptyCart, removeItem } from "../../actions";
 
 const initialForm = {
   name: "",
@@ -12,7 +12,7 @@ const initialForm = {
   shippingAdress: "",
   ccNumber: "",
   ccExpiration: "",
-  items: null,
+  itemsPurchased: null,
 };
 
 const initialCcNum = "XXXX XXXX XXXX XXXX";
@@ -29,7 +29,7 @@ export const Checkout = () => {
   const [success, setSuccess] = React.useState(null);
 
   React.useEffect(() => {
-    setFormData({ ...formData, items: cartItems });
+    setFormData({ ...formData, itemsPurchased: cartItems });
   }, [cartItems]);
 
   let totalCart = 0;
@@ -100,7 +100,16 @@ export const Checkout = () => {
     //Adjust (PUT) stock quantity
     //empty cart -> react store
     //Do we add orders in the database?
-    console.log(formData);
+    fetch("/products/purchase", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).catch((err) => console.log(err));
+
+    dispatch(emptyCart());
     setCcNum(initialCcNum);
     setCcExp(initialCcExp);
     e.target.reset();
@@ -109,7 +118,7 @@ export const Checkout = () => {
   return (
     <Wrapper>
       <CheckoutText>Checkout</CheckoutText>
-      {Object.keys(cartItems).length > 0 ? (
+      {Object.keys(cartItems).length > 0 || success ? (
         <div>
           <Text>Please review your cart before purchasing.</Text>
           <AllItemsContainer>

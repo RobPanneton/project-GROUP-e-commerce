@@ -6,6 +6,7 @@ const morgan = require("morgan");
 
 const items = require("./data/items.json");
 const companies = require("./data/companies.json");
+const orders = require("./data/orders.json");
 const { search } = require("./search/search");
 const { filter } = require("./search/filter");
 
@@ -104,6 +105,63 @@ express()
     }
   })
 
+  //purchase endpoint, updates orders.json, and adjusts items.json numInStock
+  .put("/products/purchase", (req, res) => {
+    const order = req.body;
+    const {
+      name,
+      email,
+      shippingAddress,
+      itemsPurchased,
+      ccNumber,
+      ccExpiration,
+    } = order;
+
+    if (
+      (!name,
+      !email,
+      !shippingAddress,
+      !itemsPurchased,
+      !ccNumber,
+      !ccExpiration)
+    ) {
+      res.status(400).json({
+        status: 400,
+        message: "Cannot complete order with missing information",
+        error: order,
+      });
+      return;
+    }
+
+    //adds the order to the orders array from orders.json
+    orders.push(order);
+
+    //for each purchased item (item), it goes through all database items (stock).
+    //if they have the same ID, the stock in the database goes down by the number of items purchsed.
+    Object.keys(itemsPurchased).forEach((item) => {
+      items.forEach((stock) => {
+        if (itemsPurchased[item]._id === stock._id) {
+          stock.numInStock -= itemsPurchased[item].quantity;
+        }
+      });
+    });
+
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      data: order,
+    });
+  })
+
+  //endpoint to get orders array from orders.json
+  .get("/products/admin/orders", (req, res) => {
+    res.status(200).json({
+      status: 200,
+      message: "success",
+      data: orders,
+    });
+  })
+
   //returns individual company based on comapny id as param
   .get("/companies/:id", (req, res) => {
     const { id } = req.params;
@@ -151,7 +209,7 @@ express()
     try {
       filterResults = filter(query);
     } catch (e) {
-      console.error(e.message)
+      console.error(e.message);
       res.status(400).json({
         status: 400,
         message: "Filter error",
