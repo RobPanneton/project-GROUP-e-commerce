@@ -131,6 +131,11 @@ export const Checkout = () => {
                     e.stopPropagation();
                     history.push(`/shop/${product._id}`);
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.stopPropagation();
+                    }
+                  }}
                 >
                   <div key={product._id}>
                     <Image
