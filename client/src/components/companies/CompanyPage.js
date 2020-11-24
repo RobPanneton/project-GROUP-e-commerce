@@ -54,29 +54,81 @@ export const CompanyPage = () => {
   }, [company]);
 
 
-  if (products) {
-    // console.log(products)
-  }
-
   return (
     <Wrapper>
       {company ? (
         <>
           <CompanyTop>
-            <CompanyName href={company.url}>{company.name}</CompanyName>
+            <CompanyName href={company.url} target="_blank" >{company.name}</CompanyName>
             <CompanyCountry>{company.country}</CompanyCountry>
           </CompanyTop>
-          <CompanyIframe>
-            todo
-          </CompanyIframe>
+          <CompanyProducts>
+            {products && products.map(
+              product => {return <Item key={product._id} item={product}/>}
+)}
+          </CompanyProducts>
           <CompanyBottom>
-            <CompanyUrl href={company.url}>{company.url}</CompanyUrl>
           </CompanyBottom>
         </>
       ) : null}
     </Wrapper>
   );
 };
+
+
+const Item = ({item}) => {
+  const {name, price, imageSrc, numInStock} = item;
+
+  return (
+  <ItemCard >
+    {item && 
+    <ItemContent>
+      <ProductImage
+        style={{
+          backgroundImage: `url(${item?.imageSrc})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <ProductPriceWrapper>
+          <ProductPrice>{item?.price}</ProductPrice>
+        </ProductPriceWrapper>
+      </ProductImage>
+      <ProductName>{item?.name}</ProductName>
+
+      <AddToCart
+        disabled={!item?.numInStock}
+        onClick={() => {
+          // dispatch(addItem(item));
+        }}
+      >
+        <CartBtnText>Add to Cart</CartBtnText>
+      </AddToCart>
+      {!item?.numInStock && (
+        <p
+          style={{
+            padding: "10px 0",
+            color: "red",
+            fontWeight: "bold",
+            fontSize: "13px",
+          }}
+        >
+          out of stock 😞
+        </p>
+      )}
+    </ItemContent>
+}
+
+  </ItemCard>);
+
+}
+
+
+
+
+
+
+
 
 const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
@@ -91,14 +143,12 @@ const CompanyTop = styled.div`
 
 const CompanyCountry = styled.div``;
 
-const CompanyIframe = styled.div`
+const CompanyProducts = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  color: ${COLORS.white};
-  background-color: ${COLORS.black};
-  padding: 90px;
-  margin: 10px 0;
-  border-radius: ${BORDER_RADIUS.mediumCorner};
+
+
 `;
 
 const CompanyBottom = styled.div``;
@@ -117,3 +167,58 @@ const CompanyName = styled.a`
   color: ${COLORS.black};
   font-size: xx-large;
 `;
+
+
+// item css begins here
+const ItemCard = styled.div`
+  margin: 11px;
+  border: 1px solid #eaeaee;
+  border-radius: 12px;
+`;
+
+const ItemContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 11px 16px;
+`;
+
+const ProductImage = styled.div`
+  border: 1px solid white;
+  height: 190px;
+  width: 190px;
+  border-radius: 12px;
+  text-align: center;
+`;
+
+const ProductPriceWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 11px 11px;
+`;
+
+const ProductPrice = styled.span`
+  color: red;
+  font-weight: 800;
+`;
+
+const ProductName = styled.span`
+  padding-top: 16px;
+  font-weight: 800;
+  text-align: center;
+`;
+
+const AddToCart = styled.button`
+  margin-top: 11px;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 32px;
+`;
+
+const CartBtnText = styled.span`
+  font-size: 15px;
+  font-weight: 600;
+`;
+
+
