@@ -317,10 +317,17 @@ const DesktopDetailsDiv = styled.div`
   }
 `;
 
-const ItemName = styled.h1``;
+const ItemName = styled.h1`
+  @media (min-width: 1400px) {
+    font-size: 42px;
+  } ;
+`;
 
 const CompanyDiv = styled.div`
   display: flex;
+  @media (min-width: 1400px) {
+    font-size: 20px;
+  } ;
 `;
 
 const Sold = styled.span``;
@@ -338,6 +345,9 @@ const DesktopPrice = styled.div`
 const ActualPrice = styled.span`
   font-size: 24px;
   font-weight: 600;
+  @media (min-width: 1400px) {
+    font-size: 32px;
+  } ;
 `;
 
 const SketchyPrice = styled.span`
@@ -435,6 +445,10 @@ const DesktopAddToCart = styled.button`
   background-color: ${COLORS.black};
   color: #eaeaee;
   cursor: pointer;
+
+  @media (min-width: 1400px) {
+    width: 80%;
+  }
 
   &:disabled {
     cursor: not-allowed;
