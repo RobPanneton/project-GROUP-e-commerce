@@ -33,6 +33,8 @@ export const Companies = () => {
   };
 
   return (
+<WrapperWrapper>
+<ComaniesBanner>Partner Companies</ComaniesBanner>
     <Wrapper>
       {companies && companies.length > 0 && (
         <>
@@ -49,14 +51,38 @@ export const Companies = () => {
         </>
       )}
     </Wrapper>
+    </WrapperWrapper>
   );
 };
 
-const Wrapper = styled.div`
+const WrapperWrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
   margin-left: ${MARGINS.mobileSides};
   margin-right: ${MARGINS.mobileSides};
 `;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-bottom: 100px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+`;
+
+const ComaniesBanner = styled.div`
+  text-align: left;
+  font-size: x-large;
+  font-weight: 600;
+  margin-bottom: 10px;
+
+`;
+
 
 const CompanyWrapper = styled.button`
   width: 100%;
@@ -66,4 +92,11 @@ const CompanyWrapper = styled.button`
   padding: 20px;
   margin-top: 10px;
   text-align: left;
+  max-width: 300px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  @media (min-width: 770px) {
+  max-width: 200;
+  margin: 10px;
+}
+
 `;
