@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import { populateInventory } from "../actions";
 import { About } from "./about/About";
 import { Checkout } from "./checkout/Checkout";
 import { Companies } from "./companies/Companies";
@@ -13,6 +15,24 @@ import { ProductPage } from "./products/ProductPage";
 import { Shop } from "./products/Shop";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const shopInv = useSelector((state) => state?.user?.shopInv);
+
+  const getItems = async () => {
+    try {
+      const response = await fetch(`/products`);
+      const json = await response.json();
+      dispatch(populateInventory(json.data));
+    } catch (error) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
   return (
     <>
       <GlobalStyle />

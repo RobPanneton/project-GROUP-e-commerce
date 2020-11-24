@@ -38,6 +38,35 @@ export const userReducer = (state = initialState, action) => {
         shopInv: [...newShopInv],
       };
 
+    case "ADD_ITEM_W_QUANTITY":
+      const currentItem3 = action.payload.item;
+      const quantityInc = action.payload.quantity;
+      const newShopInv3 = state.shopInv.map((product) => {
+        if (currentItem3._id === product._id) {
+          return {
+            ...product,
+            numInStock: currentItem3.numInStock - quantityInc,
+          };
+        } else {
+          return product;
+        }
+      });
+      console.log(newShopInv3);
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          [currentItem3.name]: {
+            ...currentItem3,
+            quantity: state.cart[currentItem3.name]
+              ? state.cart[currentItem3.name].quantity + quantityInc
+              : quantityInc,
+            numInStock: currentItem3.numInStock - quantityInc,
+          },
+        },
+        shopInv: [...newShopInv3],
+      };
+
     case "REMOVE_ITEM":
       const stateCopy = { ...state };
 

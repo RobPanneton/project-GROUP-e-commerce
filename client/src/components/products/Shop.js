@@ -13,20 +13,6 @@ export const Shop = () => {
 
   const shopInv = useSelector((state) => state?.user?.shopInv);
 
-  const getItems = async () => {
-    try {
-      const response = await fetch(`/products`);
-      const json = await response.json();
-      dispatch(populateInventory(json.data));
-    } catch (error) {
-      return;
-    }
-  };
-
-  useEffect(() => {
-    getItems();
-  }, []);
-
   return (
     <>
       <Wrapper>
