@@ -144,9 +144,7 @@ export const Checkout = () => {
                       }}
                     >
                       <p>{product.price} ✕</p>
-                      <input
-                        type="number"
-                        value={product.quantity}
+                      <span
                         style={{
                           textAlign: "center",
                           border: "none",
@@ -154,24 +152,18 @@ export const Checkout = () => {
                           width: "25px",
                           marginLeft: "5px",
                         }}
-                        onChange={(e) => e.stopPropagation()} //needs to connect to store
-                        onClick={(e) => e.stopPropagation()}
-                      />
+                      >
+                        {product.quantity}
+                      </span>
                     </div>
-                    <button
+                    <RemoveButton
                       onClick={(e) => {
                         e.stopPropagation();
                         dispatch(removeItem(product));
                       }}
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        marginTop: "10px",
-                        cursor: "pointer",
-                      }}
                     >
                       remove ❌
-                    </button>
+                    </RemoveButton>
                   </div>
                 </ProductContainer>
               );
@@ -399,6 +391,7 @@ const ProductContainer = styled.div`
   border-radius: 15px;
   width: 300px;
   margin: 11px;
+  cursor: pointer;
 
   @media (min-width: 768px) {
     width: 350px;
@@ -406,9 +399,7 @@ const ProductContainer = styled.div`
 `;
 
 const CheckoutText = styled.h1`
-  @media (max-width: 768px) {
-    padding-top: 35px;
-  }
+  padding-top: 35px;
 `;
 
 const AllItemsContainer = styled.div`
@@ -423,5 +414,18 @@ const AllItemsContainer = styled.div`
     flex-wrap: wrap;
     max-width: 1130px;
     margin: 0 auto;
+  }
+`;
+
+const RemoveButton = styled.button`
+  border: 1px solid transparent;
+  background: transparent;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 7px;
+
+  &:hover {
+    border: 1px solid #ff5500;
   }
 `;

@@ -31,6 +31,7 @@ export const About = () => {
 
 const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
+  padding-bottom: 55px;
   margin-left: ${MARGINS.mobileSides};
   margin-right: ${MARGINS.mobileSides};
   display: flex;
@@ -39,22 +40,34 @@ const Wrapper = styled.div`
 `;
 
 const Top = styled.div`
-  font-size: x-large;
+  font-size: 38px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 10px;
+  padding: 15px 0;
+
+  @media (min-width: 1440px) {
+    padding: 45px 0;
+    font-size: 99px;
+  }
 `;
 
 // keeps flexbox from mutating image
-const ImageContainer = styled.div``;
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const CompanyImage = styled.img`
-  height: 150px;
+  width: 95%;
+
   border-radius: ${BORDER_RADIUS.mediumCorner};
 `;
 
 const Text = styled.p`
   text-align: center;
-  margin-top: 10px;
-  font-size: smaller;
+  margin-top: 25px;
+  font-size: 18px;
+  max-width: 600px;
+  line-height: 30px;
 `;
