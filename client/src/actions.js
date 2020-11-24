@@ -3,6 +3,11 @@ export const addItem = (item) => ({
   payload: item,
 });
 
+export const addItemWithQuantity = (item, quantity) => ({
+  type: "ADD_ITEM_W_QUANTITY",
+  payload: { item, quantity },
+});
+
 export const removeItem = (item) => ({
   type: "REMOVE_ITEM",
   payload: item,
