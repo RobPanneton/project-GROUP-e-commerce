@@ -62,7 +62,7 @@ export const Header = () => {
         </SearchBarContainer>
       </SearchAndHamMenu>
       <LoginAndCart>
-        <StylessButton>Login</StylessButton>
+        <StylessButton disabled={true}>Login</StylessButton>
         <StylessButton
           onClick={() => {
             setIsCartOpen(!isCartOpen);
@@ -164,6 +164,7 @@ const SearchAndHamMenu = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 ${MARGINS.mobileSides};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 2px 2px 5px rgba(0, 0, 0, 0.03);
 `;
 
 const LogoContainer = styled(Link)`
@@ -181,6 +182,7 @@ const StylessButton = styled.button`
   background: transparent;
   color: ${COLORS.white};
   border: 1px solid transparent;
+  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -189,6 +191,10 @@ const StylessButton = styled.button`
 
   &:active {
     transform: scale(0.98);
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
   }
 `;
 
@@ -204,6 +210,7 @@ const HamBarMenu = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 18px;
+  cursor: pointer;
 `;
 
 const HamBar = styled.div`
@@ -260,6 +267,11 @@ const DropDownMenu = styled.div`
   border-radius: 0 0 ${BORDER_RADIUS.mediumCorner} ${BORDER_RADIUS.mediumCorner};
   animation: dropDown 0.5s;
 
+  @media (min-width: 1440px) {
+    width: 300px;
+    animation: dropDown 0.2s;
+  }
+
   &:focus {
     outline: none;
   }
@@ -283,6 +295,11 @@ const DropDownBackground = styled.div`
   background: rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.5s;
 
+  @media (min-width: 1440px) {
+    background: rgba(0, 0, 0, 0);
+    animation: none;
+  }
+
   @keyframes fadeIn {
     from {
       background: rgba(0, 0, 0, 0);
@@ -303,12 +320,17 @@ const NavLinkContainer = styled(NavLink)`
   text-align: center;
   text-decoration: none;
   color: ${COLORS.white};
-  font-weight: 700;
+  font-weight: 600;
 `;
 const NavItems = styled.li`
   padding: 25px 0;
+  opacity: 0.9;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    opacity: 0.5;
+    opacity: 1;
+    font-weight: 700;
+    background: #666;
+    border-radius: 0 7px 7px 0;
   }
 `;

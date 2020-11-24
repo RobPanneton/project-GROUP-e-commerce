@@ -82,7 +82,15 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
             {cartItems &&
               Object.values(cartItems).map((product) => {
                 return (
-                  <Wrapper key={product._id}>
+                  <Wrapper
+                    key={product._id}
+                    tabIndex="0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      history.push(`/shop/${product._id}`);
+                      setIsCartOpen(!isCartOpen);
+                    }}
+                  >
                     <ProductContainer key={product._id}>
                       <ProductImage
                         src={product.imageSrc}
@@ -95,36 +103,31 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                     <QuantityAndRemove>
                       <PriceAndQuanity>
                         <Price>{product.price} ✕</Price>
-                        <Quantity
-                          type="number"
-                          value={product.quantity}
-                          min={1}
-                          max={Number(product.numInStock)}
-                          onChange={() => {
-                            return;
-                          }}
-                        />
+                        <Quantity>{product.quantity}</Quantity>
                         <IncOrDec>
                           <Inc
                             disabled={!product?.numInStock}
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               dispatch(IncrementQuantity(product));
                             }}
                           >
-                            +
+                            ➕
                           </Inc>
                           <Dec
                             disabled={product?.quantity < 2}
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               dispatch(DecrementQuantity(product));
                             }}
                           >
-                            -
+                            ➖
                           </Dec>
                         </IncOrDec>
                       </PriceAndQuanity>
                       <RemoveButton
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           removeItemClick(product);
                         }}
                       >
@@ -164,6 +167,7 @@ const Wrapper = styled.div`
   margin: 20px 0;
   border-radius: ${BORDER_RADIUS.mediumCorner};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `;
 
 const BackgroundCart = styled.div`
@@ -205,6 +209,7 @@ const CloseCartButton = styled.button`
   font-size: 21px;
   padding-bottom: 10px;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 const ProceedToCheckout = styled.button`
@@ -216,6 +221,7 @@ const ProceedToCheckout = styled.button`
   color: ${COLORS.navyBlue};
   border: none;
   background: transparent;
+  cursor: pointer;
 `;
 
 const ProductContainer = styled.div`
@@ -240,7 +246,7 @@ const PriceAndQuanity = styled.div`
   display: flex;
 `;
 
-const Quantity = styled.input`
+const Quantity = styled.span`
   width: 25px;
   text-align: center;
   border: none;
@@ -249,7 +255,10 @@ const Quantity = styled.input`
 `;
 
 const IncOrDec = styled.div`
-  margin-left: 6px;
+  font-size: 22px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 80px;
 `;
 
 const Inc = styled.button`
@@ -257,6 +266,19 @@ const Inc = styled.button`
   height: 24px;
   text-align: center;
   display: inline-block;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  color: ${COLORS.white};
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background: #ececec;
+  }
 `;
 
 const Dec = styled.button`
@@ -264,6 +286,26 @@ const Dec = styled.button`
   height: 24px;
   text-align: center;
   display: inline-block;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  color: ${COLORS.white};
+  font-weight: bold;
+  margin-left: 6px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.1s ease-in-out;
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+  &:hover:disabled {
+    background: transparent;
+  }
+  &:hover {
+    background: #ececec;
+  }
 `;
 
 const Price = styled.p`
@@ -277,6 +319,14 @@ const RemoveButton = styled.button`
   background: transparent;
   font-weight: 700;
   opacity: 0.8;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.1s ease-in-out;
+  border-radius: ${BORDER_RADIUS.smallCorner};
+
+  &:hover {
+    background: #f3cdcd;
+  }
 `;
 
 const Total = styled.p`
