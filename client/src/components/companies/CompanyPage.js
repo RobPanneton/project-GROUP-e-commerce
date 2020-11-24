@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../actions";
 
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
 
@@ -8,6 +10,24 @@ export const CompanyPage = () => {
   const { id } = useParams();
   const [company, setCompany] = useState(null);
   const [products, setProducts] = useState([]);
+  const [displayProducts, setDisplayProducts] = useState([])
+  const [showInStock, setShowInStock] = useState(false)
+
+  const productsInStock = products.filter(p => p.numInStock > 0);
+
+  const toggleShowInStock = () => {
+    setShowInStock(!showInStock);
+  }
+
+  useEffect(() => {
+    if (showInStock){
+      setDisplayProducts(products.filter(p => p.numInStock > 0))
+    } else {
+      setDisplayProducts(products)
+    }
+
+  }, [showInStock, products]);
+
 
   const getCompany = async () => {
     try {
@@ -43,6 +63,7 @@ export const CompanyPage = () => {
     }
   };
 
+
   useEffect(() => {
     getCompany();
   }, []);
@@ -59,11 +80,16 @@ export const CompanyPage = () => {
       {company ? (
         <>
           <CompanyTop>
+            <CompanyNameAndCountry>
             <CompanyName href={company.url} target="_blank" >{company.name}</CompanyName>
             <CompanyCountry>{company.country}</CompanyCountry>
+            </CompanyNameAndCountry>
+            <ButtonContainer>
+      <ShowInStock onClick={toggleShowInStock}>{showInStock? "show all" : "show in stock only"}</ShowInStock>
+      </ButtonContainer>
           </CompanyTop>
           <CompanyProducts>
-            {products && products.map(
+          {displayProducts && displayProducts.map(
               product => {return <Item key={product._id} item={product}/>}
 )}
           </CompanyProducts>
@@ -78,7 +104,7 @@ export const CompanyPage = () => {
 
 const Item = ({item}) => {
   const {name, price, imageSrc, numInStock} = item;
-
+  const dispatch = useDispatch();
   return (
   <ItemCard >
     {item && 
@@ -95,7 +121,6 @@ const Item = ({item}) => {
         </ProductPriceWrapper>
       </ProductImage>
       <ProductName>{item?.name}</ProductName>
-
       <AddToCart
         disabled={!item?.numInStock}
         onClick={() => {
@@ -134,11 +159,22 @@ const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
   margin-left: ${MARGINS.mobileSides} ;
   margin-right: ${MARGINS.mobileSides} ;
+
 `;
 
 const CompanyTop = styled.div`
   padding-top: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
+`;
+
+const CompanyNameAndCountry = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start
 `;
 
 const CompanyCountry = styled.div``;
@@ -147,17 +183,38 @@ const CompanyProducts = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: auto;  //center without shrinking itemcards
 
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+const ShowInStock = styled.button`
+  border: none;
+  border-radius: 24px;
+  padding: 5px 10px;
+  margin: 0;
+  font-size: x-small;
+  font-weight: 600;
+  outline: none;
+
+  @media (min-width: 768px) {
+    padding: 10px 5px;
+    font-size: small;
+  }
 
 `;
+
 
 const CompanyBottom = styled.div``;
-
-const CompanyUrl = styled.a`
-  font-size: small;
-  text-decoration: none;
-  color: ${COLORS.black};
-`;
 
 const CompanyName = styled.a`
   padding-top: 16px;
@@ -168,12 +225,18 @@ const CompanyName = styled.a`
   font-size: xx-large;
 `;
 
-
 // item css begins here
 const ItemCard = styled.div`
-  margin: 11px;
   border: 1px solid #eaeaee;
   border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  margin-bottom: 11px;
+
+  @media (min-width: 768px) {
+    width: 350px;
+    height: 400px;
+  }
+
 `;
 
 const ItemContent = styled.div`
