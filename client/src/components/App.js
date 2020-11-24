@@ -11,8 +11,26 @@ import { Header } from "./header/Header";
 import { Homepage } from "./homepage/homepage";
 import { ProductPage } from "./products/ProductPage";
 import { Shop } from "./products/Shop";
+import { useDispatch } from "react-redux";
+import { populateInventory } from "../actions";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const getItems = async () => {
+    try {
+      const response = await fetch(`/products`);
+      const json = await response.json();
+      dispatch(populateInventory(json.data));
+    } catch (error) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
   return (
     <>
       <GlobalStyle />
