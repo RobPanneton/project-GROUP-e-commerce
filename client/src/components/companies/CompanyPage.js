@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { addItem } from "../../actions";
+import { useHistory } from "react-router-dom";
 
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
 
@@ -90,7 +89,10 @@ export const CompanyPage = () => {
           </CompanyTop>
           <CompanyProducts>
           {displayProducts && displayProducts.map(
-              product => {return <Item key={product._id} item={product}/>}
+              product => {return <Item key={product._id} 
+              item={product}
+
+              />}
 )}
           </CompanyProducts>
           <CompanyBottom>
@@ -104,9 +106,14 @@ export const CompanyPage = () => {
 
 const Item = ({item}) => {
   const {name, price, imageSrc, numInStock} = item;
-  const dispatch = useDispatch();
+  const history = useHistory();
+
   return (
-  <ItemCard >
+  <ItemCard               tabIndex="0"
+  onClick={(e) => {
+    e.stopPropagation();
+    history.push(`/shop/${item._id}`);
+  }} >
     {item && 
     <ItemContent>
       <ProductImage
@@ -121,26 +128,7 @@ const Item = ({item}) => {
         </ProductPriceWrapper>
       </ProductImage>
       <ProductName>{item?.name}</ProductName>
-      <AddToCart
-        disabled={!item?.numInStock}
-        onClick={() => {
-          // dispatch(addItem(item));
-        }}
-      >
-        <CartBtnText>Add to Cart</CartBtnText>
-      </AddToCart>
-      {!item?.numInStock && (
-        <p
-          style={{
-            padding: "10px 0",
-            color: "red",
-            fontWeight: "bold",
-            fontSize: "13px",
-          }}
-        >
-          out of stock 😞
-        </p>
-      )}
+
     </ItemContent>
 }
 
@@ -185,6 +173,7 @@ const CompanyProducts = styled.div`
   justify-content: center;
   align-items: auto;  //center without shrinking itemcards
 
+
   @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
@@ -207,7 +196,7 @@ const ShowInStock = styled.button`
   outline: none;
 
   @media (min-width: 768px) {
-    padding: 10px 5px;
+    padding: 10px 10px;
     font-size: small;
   }
 
@@ -231,10 +220,11 @@ const ItemCard = styled.div`
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   margin-bottom: 11px;
+  margin-left: 11px;
 
   @media (min-width: 768px) {
     width: 350px;
-    height: 400px;
+    height: 300px;
   }
 
 `;
