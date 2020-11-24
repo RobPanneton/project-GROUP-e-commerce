@@ -128,6 +128,12 @@ export const userReducer = (state = initialState, action) => {
         shopInv: [...newShopInv2],
       };
 
+    case "EMPTY_CART":
+      return {
+        ...state,
+        cart: {},
+      };
+
     default:
       return state;
   }

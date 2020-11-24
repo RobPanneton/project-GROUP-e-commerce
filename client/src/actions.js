@@ -32,3 +32,7 @@ export const populateInventory = (data) => ({
   type: "POPULATE_INVENTORY",
   payload: data,
 });
+
+export const emptyCart = () => ({
+  type: "EMPTY_CART",
+});
