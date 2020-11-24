@@ -55,7 +55,7 @@ export const CompanyPage = () => {
 
 
   if (products) {
-    console.log(products)
+    // console.log(products)
   }
 
   return (
