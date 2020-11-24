@@ -7,9 +7,13 @@ import { getCartItems } from "../../reducers/user-reducer";
 import { COLORS } from "../../constants";
 import { FooterFilter } from "./FooterFilter";
 import { Loader } from "../Loader";
+import { useHistory } from "react-router-dom";
+
+import star from "../../assets/ecom-star.svg";
 
 export const Shop = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const shopInv = useSelector((state) => state?.user?.shopInv);
 
@@ -31,10 +35,24 @@ export const Shop = () => {
     <>
       <Wrapper>
         {!shopInv && <Loader />}
+        {shopInv && <ShopTitle>SHOP 🛍️</ShopTitle>}
         {shopInv &&
           shopInv.map((item) => {
             return (
-              <ItemCard key={item?._id}>
+              <ItemCard
+                key={item?._id}
+                tabIndex="0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  history.push(`/shop/${item._id}`);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.stopPropagation();
+                    history.push(`/shop/${item._id}`);
+                  }
+                }}
+              >
                 <ItemContent>
                   <ProductImage
                     style={{
@@ -51,24 +69,32 @@ export const Shop = () => {
 
                   <AddToCart
                     disabled={!item?.numInStock}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       dispatch(addItem(item));
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.stopPropagation();
+                      }
+                    }}
                   >
-                    <CartBtnText>Add to Cart</CartBtnText>
+                    <CartBtnText>
+                      {!item?.numInStock ? (
+                        <p
+                          style={{
+                            color: "red",
+                            fontWeight: "bold",
+                            fontSize: "13px",
+                          }}
+                        >
+                          out of stock 😞
+                        </p>
+                      ) : (
+                        <p>Add to Cart</p>
+                      )}
+                    </CartBtnText>
                   </AddToCart>
-                  {!item?.numInStock && (
-                    <p
-                      style={{
-                        padding: "10px 0",
-                        color: "red",
-                        fontWeight: "bold",
-                        fontSize: "13px",
-                      }}
-                    >
-                      out of stock 😞
-                    </p>
-                  )}
                 </ItemContent>
               </ItemCard>
             );
@@ -81,20 +107,51 @@ export const Shop = () => {
 
 const Wrapper = styled.div`
   padding-top: 108px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  z-index: -1;
+
+  @media (min-width: 761px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 1130px;
+  }
 `;
 
 const ItemCard = styled.div`
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  width: 300px;
+  height: 100%;
   margin: 11px;
-  border: 1px solid #eaeaee;
-  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (min-width: 768px) {
+    width: 350px;
+    height: 400px;
+  }
 `;
 
 const ItemContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   margin: 11px 16px;
+  height: 100%;
 `;
 
 const ProductImage = styled.div`
@@ -103,33 +160,73 @@ const ProductImage = styled.div`
   width: 190px;
   border-radius: 12px;
   text-align: center;
+  position: relative;
+`;
+
+const ShopTitle = styled.h1`
+  width: 100%;
+  text-align: center;
+  padding: 45px 0;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-size: 46px;
+  font-weight: 800;
 `;
 
 const ProductPriceWrapper = styled.div`
+  background: url(${star});
+  height: 111px;
+  width: 111px;
+  position: absolute;
+  top: -20px;
+  right: -50px;
   display: flex;
-  justify-content: flex-end;
-  margin: 11px 11px;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(12deg);
 `;
 
 const ProductPrice = styled.span`
-  color: red;
-  font-weight: 800;
+  color: ${COLORS.white};
+  font-weight: 700;
 `;
 
 const ProductName = styled.span`
-  padding-top: 16px;
-  font-weight: 800;
+  padding: 11px 0;
+  font-weight: 700;
   text-align: center;
+  max-width: 250px;
+  display: block;
+  word-wrap: break-word;
+  color: ${COLORS.navyBlue};
 `;
 
 const AddToCart = styled.button`
   margin-top: 11px;
-  border: none;
+  border: 3px solid ${COLORS.navyBlue};
   border-radius: 24px;
   padding: 12px 32px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: ${COLORS.babyBlue};
+    color: ${COLORS.white};
+    border: 3px solid ${COLORS.babyBlue};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &:disabled:hover {
+    background: transparent;
+    border: 3px solid ${COLORS.navyBlue};
+  }
 `;
 
 const CartBtnText = styled.span`
-  font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 18px;
 `;

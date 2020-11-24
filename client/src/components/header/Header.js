@@ -150,6 +150,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 ${MARGINS.mobileSides};
+  z-index: 99999999;
 `;
 
 const SearchAndHamMenu = styled.div`
