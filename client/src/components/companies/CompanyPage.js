@@ -3,15 +3,12 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
-import { Errorpage } from "../errorpage/Errorpage";
 
 export const CompanyPage = () => {
   const { id } = useParams();
   const [company, setCompany] = useState(null);
   const [products, setProducts] = useState([]);
 
-  // same code as other pages, could probably write a generic fetch
-  // but who has time for that?
   const getCompany = async () => {
     try {
       const response = await fetch(`/companies/${id}`);
@@ -20,7 +17,7 @@ export const CompanyPage = () => {
         setCompany(json.data);
       } else {
         console.error("company not found");
-        return;  
+        return;
       }
     } catch (error) {
       return;
@@ -28,68 +25,68 @@ export const CompanyPage = () => {
   };
 
   const getProducts = async () => {
+    const filterSettings = { company: company.name };
     try {
-      const response = await fetch(`/products`);
+      const response = await fetch(
+        `/filter/${encodeURI(JSON.stringify(filterSettings))}`
+      );
       const json = await response.json();
       if (response.ok) {
-        setCompany(json.data);
+        setProducts(json.data);
       } else {
         console.error("error retrieving products");
-        return;  
+        return;
       }
     } catch (error) {
+      console.error(error.message);
       return;
     }
   };
-
-
 
   useEffect(() => {
     getCompany();
   }, []);
 
-  // load all produts then filter by company
-  // obviously more efficient to filter at backend
-  // TODO
-  // useEffect(() => {
-    
+  useEffect(() => {
+    if (company) {
+      getProducts();
+    }
+  }, [company]);
 
 
-
-
-  // }, [company]);
-
-
-
-
+  if (products) {
+    console.log(products)
+  }
 
   return (
     <Wrapper>
       {company ? (
         <>
           <CompanyTop>
-            <CompanyName>{company.name}</CompanyName>
+            <CompanyName href={company.url}>{company.name}</CompanyName>
             <CompanyCountry>{company.country}</CompanyCountry>
           </CompanyTop>
           <CompanyIframe>
-            something else here... all their products? Their favicon logo?
+            todo
           </CompanyIframe>
           <CompanyBottom>
             <CompanyUrl href={company.url}>{company.url}</CompanyUrl>
           </CompanyBottom>
         </>
-      ) : <Errorpage/>}
+      ) : null}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
-  margin: ${MARGINS.mobileSides} 16px;
+  margin-left: ${MARGINS.mobileSides} ;
+  margin-right: ${MARGINS.mobileSides} ;
 `;
 
 const CompanyTop = styled.div`
   padding-top: 16px;
+
 `;
 
 const CompanyCountry = styled.div``;
@@ -112,8 +109,11 @@ const CompanyUrl = styled.a`
   color: ${COLORS.black};
 `;
 
-const CompanyName = styled.span`
+const CompanyName = styled.a`
   padding-top: 16px;
   font-weight: 800;
   text-align: center;
+  text-decoration: none;
+  color: ${COLORS.black};
+  font-size: xx-large;
 `;
