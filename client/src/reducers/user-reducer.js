@@ -72,7 +72,6 @@ export const userReducer = (state = initialState, action) => {
       };
 
     case "INCREMENT_QUANTITY":
-      console.log(state);
       const currentItem1 = state.cart[action.payload.name];
       const newShopInv1 = state.shopInv.map((item) => {
         if (action.payload._id === item._id) {
