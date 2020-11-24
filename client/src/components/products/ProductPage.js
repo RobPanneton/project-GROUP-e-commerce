@@ -75,11 +75,8 @@ export const ProductPage = () => {
                 <CatButton>{item.category}</CatButton>
               </CatWrapper>
               <ProductImage
-                style={{
-                  backgroundImage: `url(${item.imageSrc})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
+                src={item.imageSrc}
+                alt={`picture of ${item.name} by ${company.name}`}
               ></ProductImage>
 
               <DesktopDetailsDiv>
@@ -92,7 +89,7 @@ export const ProductPage = () => {
                   <ActualPrice>{item.price}</ActualPrice>
                   {/* <SketchyPrice> $100 </SketchyPrice> */}
                 </DesktopPrice>
-                <DesktopQuantity>
+                <DesktopQuantity tabIndex={0}>
                   <DQuantText>QUANTITY: </DQuantText>
                   <DQuantAdjuster>
                     <Quantity>{quantity}</Quantity>
@@ -103,6 +100,7 @@ export const ProductPage = () => {
                   </DQuantAdjuster>
                 </DesktopQuantity>
                 <DesktopAddToCart
+                  tabIndex={0}
                   disabled={!item?.numInStock}
                   onClick={() => {
                     dispatch(addItemWithQuantity(item, quantity));
@@ -138,14 +136,14 @@ export const ProductPage = () => {
             <>
               <RelatedItems>Related Items:</RelatedItems>{" "}
               <SuggestionsWrapper>
-                <SuggestionCard1>
+                <SuggestionCard1 tabIndex={0}>
                   <SuggestionImage
                     src={suggItem1.imageSrc}
                     alt={`Image for ${suggItem1.name}`}
                   ></SuggestionImage>
                   <SuggestionName>{suggItem1.category}</SuggestionName>
                 </SuggestionCard1>
-                <SuggestionCard2>
+                <SuggestionCard2 tabIndex={0}>
                   {" "}
                   <SuggestionImage
                     src={suggItem2.imageSrc}
@@ -153,7 +151,7 @@ export const ProductPage = () => {
                   ></SuggestionImage>
                   <SuggestionName>{suggItem2.category}</SuggestionName>
                 </SuggestionCard2>
-                <SuggestionCard3>
+                <SuggestionCard3 tabIndex={0}>
                   {" "}
                   <SuggestionImage
                     src={suggItem3.imageSrc}
@@ -161,7 +159,7 @@ export const ProductPage = () => {
                   ></SuggestionImage>
                   <SuggestionName>{suggItem3.category}</SuggestionName>
                 </SuggestionCard3>
-                <SuggestionCard4>
+                <SuggestionCard4 tabIndex={0}>
                   {" "}
                   <SuggestionImage
                     src={suggItem4.imageSrc}
@@ -190,6 +188,9 @@ const Wrapper = styled.div`
 const ItemCard = styled.div`
   border: 1px solid white;
   border-radius: 12px;
+  @media (min-width: 1350px) {
+    padding: 0 2vw;
+  }
 `;
 
 const ItemContent = styled.div`
@@ -224,7 +225,9 @@ const CatButton = styled.button`
   }
 `;
 
-const ProductImage = styled.div`
+const ProductImage = styled.img`
+  background-repeat: no-repeat;
+  background-size: cover;
   border: 1px solid white;
   height: 190px;
   width: 190px;
