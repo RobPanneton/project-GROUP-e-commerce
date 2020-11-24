@@ -90,6 +90,13 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                       history.push(`/shop/${product._id}`);
                       setIsCartOpen(!isCartOpen);
                     }}
+                    onKeyDown={(e) => {
+                      e.stopPropagation();
+                      if (e.key === "Enter") {
+                        history.push(`/shop/${product._id}`);
+                        setIsCartOpen(!isCartOpen);
+                      }
+                    }}
                   >
                     <ProductContainer key={product._id}>
                       <ProductImage

@@ -247,13 +247,13 @@ const SearchInput = styled.input`
   font-size: 14px;
   border: none;
   line-height: 25px;
-  border-radius: 20px;
-  padding-left: 7px;
-  border: 1px solid transparent;
+
+  padding-left: 3px;
+  border: 2px solid transparent;
 
   &:focus {
     outline: none;
-    border: 1px solid ${COLORS.lightBabyBlue};
+    border-bottom: 2px solid ${COLORS.lightBabyBlue};
   }
 `;
 

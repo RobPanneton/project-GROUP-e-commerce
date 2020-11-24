@@ -43,6 +43,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-around;
   min-height: 100vh;
+  width: 100%;
 `;
 
 const HeroImage = styled.img`
@@ -64,7 +65,7 @@ const HeroHeading = styled.h1`
   font-size: 25px;
   line-height: 40px;
   padding: 20px;
-  width: 350px;
+  width: 300px;
 
   span {
     font-family: "Montserrat Alternates", sans-serif;
@@ -136,7 +137,9 @@ const HeroImgAndHeading = styled.div`
 `;
 
 const BackgroundWave = styled.div`
+  display: none;
   @media (min-width: 1440px) {
+    display: block;
     position: absolute;
     z-index: -999;
     bottom: 0px;
@@ -147,7 +150,9 @@ const BackgroundWave = styled.div`
 `;
 
 const BackgroundSpacing = styled.div`
+  display: none;
   @media (min-width: 1440px) {
+    display: block;
     background: ${COLORS.babyBlue};
     height: 130px;
     width: 100%;
