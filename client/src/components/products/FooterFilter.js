@@ -4,8 +4,29 @@ import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 
 export const FooterFilter = () => {
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [filteredProducts, setFilteredProducts] = React.useState([]);
 
   const handleOpenFilter = () => setIsFilterOpen(!isFilterOpen);
+  
+  // retrieve filtered results from server
+  // see /server/search/filter.js
+  const getfilteredProducts = async (filterSettings) => {
+    try {
+      const response = await fetch(`/filter/${encodeURI(JSON.stringify(filterSettings))}`)
+      const json = await response.json();
+      if (response.ok) {
+        setFilteredProducts(json.data);
+      } else {
+        console.error("FooterFilter error retrieving from server");
+        return;
+      }
+    } catch (error) {
+      console.error(error.message)
+      return;
+    }
+  };
+
+
 
   return (
     <Wrapper>
