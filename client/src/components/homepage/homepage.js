@@ -26,7 +26,7 @@ export const Homepage = () => {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill={COLORS.babyBlue}
-            fill-opacity="1"
+            fillOpacity="1"
             d="M0,0L60,5.3C120,11,240,21,360,48C480,75,600,117,720,149.3C840,181,960,203,1080,186.7C1200,171,1320,117,1380,90.7L1440,64L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
           ></path>
         </svg>
@@ -99,7 +99,7 @@ const ShopNowButton = styled.button`
   @media (min-width: 761px) {
     font-size: 32px;
   }
-  @media (min-width: 1440px) {
+  @media (min-width: 770px) {
     color: #fff;
     border: 6px solid #fff;
     background: ${COLORS.babyBlue};
@@ -118,7 +118,7 @@ const CompaniesButton = styled.button`
   color: ${COLORS.babyBlue};
   background: transparent;
   cursor: pointer;
-  @media (min-width: 1440px) {
+  @media (min-width: 770px) {
     color: ${COLORS.white};
     font-size: 16px;
   }
@@ -138,7 +138,7 @@ const HeroImgAndHeading = styled.div`
 
 const BackgroundWave = styled.div`
   display: none;
-  @media (min-width: 1440px) {
+  @media (min-width: 770px) {
     display: block;
     position: absolute;
     z-index: -999;
@@ -151,7 +151,7 @@ const BackgroundWave = styled.div`
 
 const BackgroundSpacing = styled.div`
   display: none;
-  @media (min-width: 1440px) {
+  @media (min-width: 770px) {
     display: block;
     background: ${COLORS.babyBlue};
     height: 130px;

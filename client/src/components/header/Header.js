@@ -267,7 +267,7 @@ const DropDownMenu = styled.div`
   border-radius: 0 0 ${BORDER_RADIUS.mediumCorner} ${BORDER_RADIUS.mediumCorner};
   animation: dropDown 0.5s;
 
-  @media (min-width: 1440px) {
+  @media (min-width: 770px) {
     width: 300px;
     animation: dropDown 0.2s;
   }
