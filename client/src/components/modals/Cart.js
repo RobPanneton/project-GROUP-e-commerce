@@ -274,7 +274,7 @@ const IncOrDec = styled.div`
   font-size: 22px;
   display: flex;
   justify-content: space-evenly;
-  width: 80px;
+  width: 75px;
 `;
 
 const Inc = styled.button`
