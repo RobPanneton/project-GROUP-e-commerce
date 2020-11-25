@@ -271,6 +271,12 @@ const AddToCartMobile = styled.button`
     border: 3px solid ${COLORS.navyBlue};
   }
 
+  @media (min-width: 600px) {
+    padding: 24px 64px;
+    margin-top: 48px;
+    border-radius: 48px;
+  }
+
   @media (min-width: 1024px) {
     display: none;
   }
@@ -337,6 +343,10 @@ const ProductName = styled.span`
 const CartBtnText = styled.span`
   font-size: 15px;
   font-weight: 600;
+
+  @media (min-width: 600px) {
+    font-size: 24px;
+  }
 `;
 
 const StockAndPrice = styled.div`
@@ -386,9 +396,9 @@ const DesktopDetailsDiv = styled.div`
 `;
 
 const ItemName = styled.h1`
-  @media (min-width: 1400px) {
+  /* @media (min-width: 1400px) {
     font-size: 42px;
-  } ;
+  } ; */
 `;
 
 const CompanyDiv = styled.div`
@@ -425,6 +435,7 @@ const SketchyPrice = styled.span`
   margin-left: 24px;
   text-decoration: line-through;
   opacity: 0.5;
+  font-size: 24px;
   @media (min-width: 1400px) {
     font-size: 32px;
   } ;
