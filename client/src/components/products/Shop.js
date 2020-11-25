@@ -4,7 +4,7 @@ import { addItem, decreaseStock, populateInventory } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItems } from "../../reducers/user-reducer";
 
-import { COLORS } from "../../constants";
+import { COLORS, BORDER_RADIUS } from "../../constants";
 import { FooterFilter } from "./FooterFilter";
 import { Loader } from "../Loader";
 import { useHistory } from "react-router-dom";
@@ -15,15 +15,28 @@ export const Shop = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [startIndex, setStartIndex] = React.useState(0);
+  const [endIndex, setEndIndex] = React.useState(15);
+  const [productArr, setProductArr] = React.useState(null);
   const shopInv = useSelector((state) => state?.user?.shopInv);
+
+  useEffect(() => {
+    setProductArr(
+      shopInv?.filter((item, index) => {
+        if (index >= startIndex && index < endIndex) {
+          return true;
+        }
+      })
+    );
+  }, [shopInv, startIndex]);
 
   return (
     <>
       <Wrapper>
-        {!shopInv && <Loader />}
-        {shopInv && <ShopTitle>SHOP 🛍️</ShopTitle>}
-        {shopInv &&
-          shopInv.map((item) => {
+        {!productArr && <Loader />}
+        {productArr && <ShopTitle>SHOP 🛍️</ShopTitle>}
+        {productArr &&
+          productArr.map((item) => {
             return (
               <ItemCard
                 key={item?._id}
@@ -85,6 +98,35 @@ export const Shop = () => {
               </ItemCard>
             );
           })}
+        {productArr && (
+          <PageSelectorContainer>
+            <PreviousButton
+              onClick={(e) => {
+                e.stopPropagation();
+                if (shopInv.length - 15 > startIndex) {
+                  setStartIndex(startIndex - 15);
+                  setEndIndex(endIndex - 15);
+                  window.scrollTo(0, 0);
+                }
+              }}
+              disabled={startIndex < 14}
+            >
+              Previous
+            </PreviousButton>
+            <PageButton
+              onClick={(e) => {
+                e.stopPropagation();
+                if (shopInv.length - 15 > startIndex) {
+                  setStartIndex(startIndex + 15);
+                  setEndIndex(endIndex + 15);
+                  window.scrollTo(0, 0);
+                }
+              }}
+            >
+              Next
+            </PageButton>
+          </PageSelectorContainer>
+        )}
       </Wrapper>
       <FooterFilter />
     </>
@@ -215,4 +257,35 @@ const AddToCart = styled.button`
 const CartBtnText = styled.span`
   font-weight: 700;
   font-size: 18px;
+`;
+
+const PageSelectorContainer = styled.div`
+  width: 100%;
+  padding: 45px 0 120px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PageButton = styled.button`
+  border-radius: ${BORDER_RADIUS.smallCorner};
+  color: ${COLORS.white};
+  border: none;
+  background: ${COLORS.babyBlue};
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-family: "Montserrat Alternates", sans-serif;
+  cursor: pointer;
+  width: 110px;
+`;
+
+const PreviousButton = styled(PageButton)`
+  margin-right: 33px;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
 `;
