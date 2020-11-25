@@ -16,10 +16,10 @@ export const ProductGrid = ({ productArray, title, children }) => {
   return (
     <Wrapper>
       <ShopTitle>{title}</ShopTitle>
-      {productArray.map((item) => {
+      {productArray.map((item, index) => {
         return (
           <ItemCard
-            key={item?._id}
+            key={index}
             tabIndex="0"
             onClick={(e) => {
               e.stopPropagation();
@@ -67,7 +67,10 @@ export const ProductGrid = ({ productArray, title, children }) => {
                         fontSize: "13px",
                       }}
                     >
-                      out of stock 😞
+                      out of stock{" "}
+                      <span role="img" aria-label="sad face">
+                        😞
+                      </span>
                     </p>
                   ) : (
                     <p>Add to Cart</p>
@@ -207,35 +210,4 @@ const AddToCart = styled.button`
 const CartBtnText = styled.span`
   font-weight: 700;
   font-size: 18px;
-`;
-
-const PageSelectorContainer = styled.div`
-  width: 100%;
-  padding: 45px 0 120px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PageButton = styled.button`
-  border-radius: ${BORDER_RADIUS.smallCorner};
-  color: ${COLORS.white};
-  border: none;
-  background: ${COLORS.babyBlue};
-  padding: 10px 15px;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  font-family: "Montserrat Alternates", sans-serif;
-  cursor: pointer;
-  width: 110px;
-`;
-
-const PreviousButton = styled(PageButton)`
-  margin-right: 33px;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
 `;

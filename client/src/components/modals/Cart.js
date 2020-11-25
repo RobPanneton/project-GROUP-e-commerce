@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 
 import cart from "../../assets/cart-icon-black.svg";
-import { getCartItems } from "../../reducers/user-reducer";
 
 import {
   removeItem,
@@ -119,7 +118,9 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                               dispatch(IncrementQuantity(product));
                             }}
                           >
-                            ➕
+                            <span role="img" aria-label="add one more time">
+                              ➕
+                            </span>
                           </Inc>
                           <Dec
                             disabled={product?.quantity < 2}
@@ -128,7 +129,9 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                               dispatch(DecrementQuantity(product));
                             }}
                           >
-                            ➖
+                            <span role="img" aria-label="remove one item">
+                              ➖
+                            </span>
                           </Dec>
                         </IncOrDec>
                       </PriceAndQuanity>
@@ -138,7 +141,13 @@ export const Cart = ({ isCartOpen, setIsCartOpen }) => {
                           removeItemClick(product);
                         }}
                       >
-                        remove ❌
+                        remove{" "}
+                        <span
+                          role="img"
+                          aria-label="remove all of quantity of this item from cart"
+                        >
+                          ❌
+                        </span>
                       </RemoveButton>
                     </QuantityAndRemove>
                   </Wrapper>

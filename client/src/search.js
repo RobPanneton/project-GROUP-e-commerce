@@ -1,6 +1,6 @@
 // USE:
 // call search(searchString, products)
-// returns array of products 
+// returns array of products
 
 // -------- utility functions -------------
 
@@ -28,9 +28,9 @@ const wordInProduct = (word, product) => {
   return false;
 };
 
-const wordInCompanyName = (word, company) => {
-  return company.name.toLowerCase().includes(word);
-};
+// const wordInCompanyName = (word, company) => {
+//   return company.name.toLowerCase().includes(word);
+// };
 
 // // if word found in a company name, return all their products
 // const searchCompanies = (word, companies) => {
@@ -45,7 +45,6 @@ const wordInCompanyName = (word, company) => {
 //   }
 //   return [];
 // };
-
 
 const searchProducts = (word, prods) => {
   return prods.filter((p) => wordInProduct(word, p));
@@ -74,13 +73,12 @@ const searchResultsMatrix = (searchTerm, products) => {
   const results = [];
   words.forEach((word, index) => {
     results[index] = [
-      ...searchProducts(word, products),                 
-    //   ...searchCompanies(word, companiesList),            
+      ...searchProducts(word, products),
+      //   ...searchCompanies(word, companiesList),
     ];
   });
   return results;
 };
-
 
 // narrower search, return intersection of all results
 const narrowSearch = (searchTerm, products) => {
@@ -89,25 +87,22 @@ const narrowSearch = (searchTerm, products) => {
 };
 
 // helper function, print to console
-const printResults = (results) => {
-    results.forEach((item) => {
-      console.log({
-        name: item.name,
-        id: item._id,
-        category: item.category,
-        body_location: item.body_location,
-        // company: companiesList.some((c) => c._id === item.companyId),
-      });
-    });
-  };
-  
+// const printResults = (results) => {
+//     results.forEach((item) => {
+//       console.log({
+//         name: item.name,
+//         id: item._id,
+//         category: item.category,
+//         body_location: item.body_location,
+//         // company: companiesList.some((c) => c._id === item.companyId),
+//       });
+//     });
+//   };
+
 // -----------------------------------
 
-
-// entry point here 
+// entry point here
 export const search = (searchTerm, products) => {
-  console.log("calling search")
+  console.log("calling search");
   return narrowSearch(searchTerm, products);
 };
-
-
