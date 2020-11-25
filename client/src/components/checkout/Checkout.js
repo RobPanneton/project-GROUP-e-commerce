@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 import { getCartItems } from "../../reducers/user-reducer";
 import { emptyCart, removeItem } from "../../actions";
+import { ProductGrid } from "../products/ProductGrid";
 
 const initialForm = {
   name: "",
