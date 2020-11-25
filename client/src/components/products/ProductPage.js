@@ -18,6 +18,7 @@ export const ProductPage = () => {
   let [suggArray, setSuggArray] = useState(null);
   const [sketchyPrice, setSketchyPrice] = useState(null);
   const [sketchyDiscount, setSketchyDiscount] = useState(null);
+  const [loadState, setLoadState] = useState("loading");
 
   const shopInv = useSelector((state) => state.user.shopInv);
 
@@ -77,8 +78,11 @@ export const ProductPage = () => {
 
   useEffect(() => {
     getItem();
-    window.scrollTo(0, 0);
   }, [shopInv, id]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     getCompany();
@@ -93,19 +97,32 @@ export const ProductPage = () => {
   }, [item]);
 
   useEffect(() => {
-    if (inStock) {
+    if (loadState === "loading") {
       setSuggArray([
         inStock[Math.round(Math.random() * inStock.length)],
         inStock[Math.round(Math.random() * inStock.length)],
         inStock[Math.round(Math.random() * inStock.length)],
       ]);
+      if (suggArray) {
+        if (suggArray.length > 1) setLoadState("loaded");
+      }
     }
   }, [inStock]);
 
   useEffect(() => {
+    setLoadState("loading");
+  }, [id]);
+
+  useEffect(() => {
+    if (suggArray) {
+      if (suggArray.length > 1) setLoadState("success");
+    }
+  }, [loadState]);
+
+  useEffect(() => {
     if (shopInv)
       setInStock(shopInv.filter((product) => product.numInStock > 0));
-  }, [company, shopInv]);
+  }, [company]);
 
   return (
     <Wrapper>
