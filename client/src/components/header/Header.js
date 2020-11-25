@@ -14,8 +14,6 @@ export const Header = () => {
   const cartItems = useSelector(getCartItems);
   const [isHamOpen, setIsHamOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
-  
-  
 
   let amountOfItems = 0;
 
@@ -36,21 +34,21 @@ export const Header = () => {
     // const searchTerm = ev.target.value;
     // // ev.target.reset();
     // pushToSearchResults(searchTerm)
-  }
+  };
 
   const handleKeyDown = (ev) => {
-    if (ev.key === "Enter"){
+    if (ev.key === "Enter") {
       const searchTerm = ev.target.value;
       // ev.target.reset();
-      pushToSearchResults(searchTerm)
+      pushToSearchResults(searchTerm);
     }
-  }
+  };
 
   const history = useHistory();
   const pushToSearchResults = (searchText) => {
-       const searchEncoded = encodeURI(searchText)
+    const searchEncoded = encodeURI(searchText);
     history.push(`/search/${searchEncoded}`);
-}
+  };
 
   return (
     <HeaderContainer>
@@ -128,23 +126,23 @@ export const Header = () => {
             }}
           >
             <ListConatiner>
-              <NavLinkContainer to="/shop" onClick={closeHamburger}>
+              <NavLinkContainer to="/" onClick={closeHamburger}>
                 <NavItems
                   style={{
                     borderBottom: `1px solid ${COLORS.grey}`,
                     borderTop: `1px solid ${COLORS.grey}`,
                   }}
                 >
-                  Shop
+                  Home
                 </NavItems>
               </NavLinkContainer>
-              <NavLinkContainer to="/companies" onClick={closeHamburger}>
+              <NavLinkContainer to="/shop" onClick={closeHamburger}>
                 <NavItems
                   style={{
                     borderBottom: `1px solid ${COLORS.grey}`,
                   }}
                 >
-                  Partner companies
+                  Shop
                 </NavItems>
               </NavLinkContainer>
               <NavLinkContainer to="/contact" onClick={closeHamburger}>
