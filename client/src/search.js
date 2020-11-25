@@ -32,19 +32,19 @@ const wordInCompanyName = (word, company) => {
   return company.name.toLowerCase().includes(word);
 };
 
-// if word found in a company name, return all their products
-const searchCompanies = (word, companies) => {
-  let id = 0; //assume no company with id = 0;
-  companies.forEach((c) => {
-    if (wordInCompanyName(word, c)) {
-      id = c.id;
-    }
-  });
-  if (id) {
-    return products.filter((p) => id == p.companyId);
-  }
-  return [];
-};
+// // if word found in a company name, return all their products
+// const searchCompanies = (word, companies) => {
+//   let id = 0; //assume no company with id = 0;
+//   companies.forEach((c) => {
+//     if (wordInCompanyName(word, c)) {
+//       id = c.id;
+//     }
+//   });
+//   if (id) {
+//     return products.filter((p) => id == p.companyId);
+//   }
+//   return [];
+// };
 
 
 const searchProducts = (word, prods) => {
@@ -106,6 +106,7 @@ const printResults = (results) => {
 
 // entry point here 
 export const search = (searchTerm, products) => {
+  console.log("calling search")
   return narrowSearch(searchTerm, products);
 };
 

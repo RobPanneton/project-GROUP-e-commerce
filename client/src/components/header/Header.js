@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 
 import logo from "../../assets/logo.svg";
 import searchIcon from "../../assets/search-icon.svg";
@@ -14,6 +14,8 @@ export const Header = () => {
   const cartItems = useSelector(getCartItems);
   const [isHamOpen, setIsHamOpen] = React.useState(false);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
+  
+  
 
   let amountOfItems = 0;
 
@@ -26,6 +28,29 @@ export const Header = () => {
   const closeHamburger = () => {
     setIsHamOpen(!isHamOpen);
   };
+
+  // SEARCH TODOs
+  // clicking on magnifying glass starts search, NOT clicking on textarea
+  // clear textfield when you start search
+  const handleClick = (ev) => {
+    // const searchTerm = ev.target.value;
+    // // ev.target.reset();
+    // pushToSearchResults(searchTerm)
+  }
+
+  const handleKeyDown = (ev) => {
+    if (ev.key === "Enter"){
+      const searchTerm = ev.target.value;
+      // ev.target.reset();
+      pushToSearchResults(searchTerm)
+    }
+  }
+
+  const history = useHistory();
+  const pushToSearchResults = (searchText) => {
+       const searchEncoded = encodeURI(searchText)
+    history.push(`/search/${searchEncoded}`);
+}
 
   return (
     <HeaderContainer>
@@ -58,6 +83,8 @@ export const Header = () => {
             name="search"
             id="search"
             placeholder="What are you looking for?"
+            onClick={(ev) => handleClick(ev)}
+            onKeyDown={(ev) => handleKeyDown(ev)}
           />
         </SearchBarContainer>
       </SearchAndHamMenu>

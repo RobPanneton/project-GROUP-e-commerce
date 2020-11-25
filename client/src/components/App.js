@@ -13,6 +13,7 @@ import { ProductPage } from "./products/ProductPage";
 import { Shop } from "./products/Shop";
 import { useDispatch } from "react-redux";
 import { populateInventory } from "../actions";
+import { SearchResults } from "./search/SearchResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +60,9 @@ function App() {
         </Route>
         <Route path="/checkout">
           <Checkout />
+        </Route>
+        <Route path="/search/:searchTerm">
+          <SearchResults />
         </Route>
         <Route>
           <Errorpage />
