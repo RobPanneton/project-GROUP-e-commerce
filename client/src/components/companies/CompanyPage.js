@@ -147,7 +147,6 @@ const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
   margin-left: ${MARGINS.mobileSides} ;
   margin-right: ${MARGINS.mobileSides} ;
-
 `;
 
 const CompanyTop = styled.div`
@@ -171,7 +170,7 @@ const CompanyProducts = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: auto;  //center without shrinking itemcards
+  align-items: center;
 
 
   @media (min-width: 768px) {
@@ -219,10 +218,14 @@ const ItemCard = styled.div`
   border: 1px solid #eaeaee;
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  margin-top: 11px;
   margin-bottom: 11px;
-  margin-left: 11px;
+  width: 300px;
+  height: 300px;
+  padding: 20px;
 
   @media (min-width: 768px) {
+    margin: 11px;
     width: 350px;
     height: 300px;
   }
