@@ -15,17 +15,29 @@ export const ProductPage = () => {
   const [company, setCompany] = useState(null);
   let [quantity, setQuantity] = useState(1);
   let [inStock, setInStock] = useState([]);
-  let [suggItem1, setSuggItem1] = useState();
-  let [suggItem2, setSuggItem2] = useState({});
-  let [suggItem3, setSuggItem3] = useState(null);
-
   let [suggArray, setSuggArray] = useState(null);
   const [sketchyPrice, setSketchyPrice] = useState(null);
   const [sketchyDiscount, setSketchyDiscount] = useState(null);
 
   const shopInv = useSelector((state) => state.user.shopInv);
 
-  const newSugArr = [];
+  const getItem = async () => {
+    if (shopInv) {
+      setItem(shopInv.find((item) => item._id == id));
+    }
+    return;
+  };
+
+  const getCompany = async () => {
+    try {
+      const response = await fetch(`/companies/${item.companyId}`);
+      const json = await response.json();
+      setCompany(json.data);
+      return;
+    } catch (error) {
+      return;
+    }
+  };
 
   const getSketchyPrice = (price) => {
     let sPrice = Number(price.split("$")[1]);
@@ -55,6 +67,22 @@ export const ProductPage = () => {
     );
   };
 
+  const increment = () => {
+    return quantity < item.numInStock ? setQuantity(quantity + 1) : quantity;
+  };
+
+  const decrement = () => {
+    return quantity > 1 ? setQuantity(quantity - 1) : quantity;
+  };
+
+  useEffect(() => {
+    getItem();
+  }, [shopInv]);
+
+  useEffect(() => {
+    getCompany();
+  }, [item]);
+
   useEffect(() => {
     if (sketchyPrice) getSketchyDiscount();
   }, [sketchyPrice]);
@@ -73,51 +101,10 @@ export const ProductPage = () => {
     }
   }, [inStock]);
 
-  console.log(suggArray);
-
   useEffect(() => {
-    if (shopInv) {
+    if (shopInv)
       setInStock(shopInv.filter((product) => product.numInStock > 0));
-    }
-
-    setSuggItem1(inStock[Math.round(Math.random() * inStock.length)]);
-    setSuggItem2(inStock[Math.round(Math.random() * inStock.length)]);
-    setSuggItem3(inStock[Math.round(Math.random() * inStock.length)]);
   }, [company, shopInv]);
-
-  const getItem = async () => {
-    if (shopInv) {
-      setItem(shopInv.find((item) => item._id == id));
-    }
-    return;
-  };
-
-  const getCompany = async () => {
-    try {
-      const response = await fetch(`/companies/${item.companyId}`);
-      const json = await response.json();
-      setCompany(json.data);
-      return;
-    } catch (error) {
-      return;
-    }
-  };
-
-  useEffect(() => {
-    getItem();
-  }, [shopInv]);
-
-  useEffect(() => {
-    getCompany();
-  }, [item]);
-
-  const increment = () => {
-    return quantity < item.numInStock ? setQuantity(quantity + 1) : quantity;
-  };
-
-  const decrement = () => {
-    return quantity > 1 ? setQuantity(quantity - 1) : quantity;
-  };
 
   return (
     <Wrapper>
