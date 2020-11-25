@@ -322,7 +322,11 @@ const ProductImage = styled.img`
   width: 100%;
   border-radius: 12px;
   text-align: center;
-  margin-top: 12px;
+  margin: 12px 0;
+
+  @media (min-width: 600px) {
+    width: 50%;
+  }
 
   @media (min-width: 1024px) {
     height: 480px;
