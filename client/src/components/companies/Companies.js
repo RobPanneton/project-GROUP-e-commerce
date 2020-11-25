@@ -33,24 +33,24 @@ export const Companies = () => {
   };
 
   return (
-<WrapperWrapper>
-<ComaniesBanner>Partner Companies</ComaniesBanner>
-    <Wrapper>
-      {companies && companies.length > 0 && (
-        <>
-          {companies.map((company) => {
-            return (
-              <CompanyWrapper
-                key={company._id}
-                onClick={() => redirectToCompanyPage(company._id)}
-              >
-                {company.name}
-              </CompanyWrapper>
-            );
-          })}
-        </>
-      )}
-    </Wrapper>
+    <WrapperWrapper>
+      <Wrapper>
+        <ComaniesBanner>Brands</ComaniesBanner>
+        {companies && companies.length > 0 && (
+          <>
+            {companies.map((company) => {
+              return (
+                <CompanyWrapper
+                  key={company._id}
+                  onClick={() => redirectToCompanyPage(company._id)}
+                >
+                  {company.name}
+                </CompanyWrapper>
+              );
+            })}
+          </>
+        )}
+      </Wrapper>
     </WrapperWrapper>
   );
 };
@@ -66,37 +66,46 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 
   padding-bottom: 100px;
   @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
   }
-
 `;
 
 const ComaniesBanner = styled.div`
-  text-align: left;
-  font-size: x-large;
-  font-weight: 600;
-  margin-bottom: 10px;
-
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  margin: 25px 0;
+  width: 100%;
 `;
-
 
 const CompanyWrapper = styled.button`
   width: 100%;
-  color: ${COLORS.white};
-  background-color: ${COLORS.black};
+  border: none;
+  color: ${COLORS.black};
+  background-color: ${COLORS.white};
   border-radius: ${BORDER_RADIUS.mediumCorner};
   padding: 20px;
-  margin-top: 10px;
-  text-align: left;
-  max-width: 300px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  @media (min-width: 770px) {
-  max-width: 200;
   margin: 10px;
-}
+  text-align: center;
+  max-width: 300px;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 
+  &:hover {
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  @media (min-width: 770px) {
+    width: 150px;
+    height: 160px;
+    margin: 20px;
+  }
 `;
