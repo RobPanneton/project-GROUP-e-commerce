@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../../constants";
+import star from "../../assets/ecom-star.svg";
 
 import styled from "styled-components";
 import { addItem, addItemWithQuantity } from "../../actions";
@@ -12,13 +13,52 @@ export const ProductPage = () => {
   const [item, setItem] = useState(null);
   const [company, setCompany] = useState(null);
   let [quantity, setQuantity] = useState(1);
-
-  const shopInv = useSelector((state) => state.user.shopInv);
   let [inStock, setInStock] = useState([]);
   let [suggItem1, setSuggItem1] = useState({});
   let [suggItem2, setSuggItem2] = useState({});
   let [suggItem3, setSuggItem3] = useState({});
-  let [suggItem4, setSuggItem4] = useState({});
+
+  let [suggArray, setSuggArray] = useState([]);
+  const [sketchyPrice, setSketchyPrice] = useState(null);
+  const [sketchyDiscount, setSketchyDiscount] = useState(null);
+
+  const shopInv = useSelector((state) => state.user.shopInv);
+
+  const getSketchyPrice = (price) => {
+    let sPrice = Number(price.split("$")[1]);
+    if (sPrice < 50) {
+      sPrice += 10;
+    } else if (sPrice >= 50 && sPrice < 100) {
+      sPrice += 15;
+    } else if (sPrice >= 100 && sPrice < 150) {
+      sPrice += 20;
+    } else if (sPrice >= 150 && sPrice < 200) {
+      sPrice += 30;
+    } else if (sPrice >= 200 && sPrice < 250) {
+      sPrice += 40;
+    } else if (sPrice >= 250) {
+      sPrice += 50;
+    }
+    setSketchyPrice(sPrice);
+  };
+
+  const getSketchyDiscount = () => {
+    setSketchyDiscount(
+      (sketchyPrice / item.price.split("$")[1] - 1).toFixed(2) * 100
+    );
+  };
+
+  useEffect(() => {
+    if (sketchyPrice) getSketchyDiscount();
+  }, [sketchyPrice]);
+
+  useEffect(() => {
+    if (item) getSketchyPrice(item.price);
+  }, [item]);
+
+  useEffect(() => {
+    suggArray = [suggItem1, suggItem2, suggItem3];
+  }, [suggItem3]);
 
   useEffect(() => {
     if (shopInv) {
@@ -27,8 +67,7 @@ export const ProductPage = () => {
     setSuggItem1(inStock[Math.round(Math.random() * inStock.length)]);
     setSuggItem2(inStock[Math.round(Math.random() * inStock.length)]);
     setSuggItem3(inStock[Math.round(Math.random() * inStock.length)]);
-    setSuggItem4(inStock[Math.round(Math.random() * inStock.length)]);
-  }, [shopInv, company]);
+  }, [company, shopInv]);
 
   const getItem = async () => {
     if (shopInv) {
@@ -90,7 +129,10 @@ export const ProductPage = () => {
                 </CompanyDiv>
                 <DesktopPrice>
                   <ActualPrice>{item.price}</ActualPrice>
-                  {/* <SketchyPrice> $100 </SketchyPrice> */}
+                  <SketchyPrice> ${sketchyPrice}</SketchyPrice>
+                  <SketchyPriceWrapper>
+                    <SketchyDiscount>{sketchyDiscount}% Off!</SketchyDiscount>
+                  </SketchyPriceWrapper>
                 </DesktopPrice>
                 <DesktopQuantity tabIndex={0}>
                   <DQuantText>QUANTITY: </DQuantText>
@@ -164,14 +206,6 @@ export const ProductPage = () => {
                   ></SuggestionImage>
                   <SuggestionName>{suggItem3.category}</SuggestionName>
                 </SuggestionCard3>
-                <SuggestionCard4 tabIndex={0}>
-                  {" "}
-                  <SuggestionImage
-                    src={suggItem4.imageSrc}
-                    alt={`Image for ${suggItem4.name}`}
-                  ></SuggestionImage>
-                  <SuggestionName>{suggItem4.category}</SuggestionName>
-                </SuggestionCard4>
               </SuggestionsWrapper>
             </>
           )}
@@ -351,6 +385,7 @@ const By = styled(Link)`
 
 const DesktopPrice = styled.div`
   display: flex;
+  position: relative;
 `;
 
 const ActualPrice = styled.span`
@@ -362,9 +397,30 @@ const ActualPrice = styled.span`
 `;
 
 const SketchyPrice = styled.span`
-  margin-left: 16px;
+  margin-left: 24px;
   text-decoration: line-through;
   opacity: 0.5;
+  @media (min-width: 1400px) {
+    font-size: 32px;
+  } ;
+`;
+
+const SketchyPriceWrapper = styled.div`
+  background: url(${star});
+  height: 111px;
+  width: 111px;
+  position: absolute;
+  top: -20px;
+  left: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(12deg);
+`;
+
+const SketchyDiscount = styled.span`
+  color: ${COLORS.white};
+  font-weight: 700;
 `;
 
 const DesktopQuantity = styled.div`
