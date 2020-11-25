@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import { ProductGrid } from "../products/ProductGrid";
-import { COLORS, MARGINS } from "../../constants";
+import { MARGINS } from "../../constants";
 
 export const CompanyPage = () => {
   const { id } = useParams();

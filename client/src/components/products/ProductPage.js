@@ -163,7 +163,10 @@ export const ProductPage = () => {
                         fontSize: "13px",
                       }}
                     >
-                      out of stock 😞
+                      out of stock{" "}
+                      <span role="img" aria-label="sad face">
+                        😞
+                      </span>
                     </p>
                   ) : (
                     <p>Add to Cart</p>
@@ -267,6 +270,10 @@ const AddToCartMobile = styled.button`
     background: transparent;
     border: 3px solid ${COLORS.navyBlue};
   }
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
 `;
 
 const ItemContent = styled.div`
@@ -327,30 +334,9 @@ const ProductName = styled.span`
   }
 `;
 
-const AddToCart = styled.button`
-  margin-top: 23px;
-  border: none;
-  border-radius: 24px;
-  padding: 12px 32px;
-
-  @media (min-width: 1024px) {
-    display: none;
-  }
-`;
-
 const CartBtnText = styled.span`
   font-size: 15px;
   font-weight: 600;
-`;
-
-const OutOfStock = styled.p`
-  padding: "10px 0";
-  color: "red";
-  font-weight: "bold";
-  font-size: "13px";
-  @media (min-width: 1024px) {
-    display: none;
-  }
 `;
 
 const StockAndPrice = styled.div`
@@ -373,14 +359,6 @@ const Price = styled.span`
   font-size: 13px;
 `;
 
-const SoldByWrapper = styled.div`
-  margin-top: 32px;
-
-  @media (min-width: 1024px) {
-    display: none;
-  }
-`;
-
 const SoldBy = styled(Link)`
   font-weight: 700;
   color: black;
@@ -392,8 +370,6 @@ const SoldBy = styled(Link)`
     font-weight: 600;
   }
 `;
-
-const CompanyName = styled.button``;
 
 const DesktopDetailsDiv = styled.div`
   display: none;
@@ -569,80 +545,4 @@ const DesktopAddToCart = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
-`;
-
-const RelatedItems = styled.div`
-  padding: 16px 0px;
-  text-align: center;
-  font-size: 32px;
-  font-weight: 800;
-  width: 100%;
-`;
-
-const SuggestionsWrapper = styled.div`
-  border-radius: 6px solid #eaeaee;
-  width: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  padding: 16px;
-
-  @media (max-width: 760px) {
-    flex-wrap: wrap;
-  }
-`;
-
-const SuggestionImage = styled.img`
-  height: 100px;
-  width: 100px;
-  padding-bottom: 12px;
-`;
-
-const SuggestionName = styled.span`
-  font-weight: 600;
-  text-align: center;
-  font-size: 24px;
-`;
-
-const SuggestionCard1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 240px;
-  padding: 16px;
-  border: 2px solid #eaeaee;
-  border-radius: 20px;
-  margin-bottom: 24px;
-`;
-
-const SuggestionCard2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 240px;
-  padding: 16px;
-  border: 2px solid #eaeaee;
-  border-radius: 20px;
-  margin-bottom: 24px;
-`;
-
-const SuggestionCard3 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 240px;
-  padding: 16px;
-  border: 2px solid #eaeaee;
-  border-radius: 20px;
-  margin-bottom: 24px;
-`;
-
-const SuggestionCard4 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 240px;
-  padding: 16px;
-  border: 2px solid #eaeaee;
-  border-radius: 20px;
-  margin-bottom: 24px;
 `;
