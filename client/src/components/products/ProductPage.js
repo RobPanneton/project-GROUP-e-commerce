@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../../constants";
 import star from "../../assets/ecom-star.svg";
+import { ProductGrid } from "./ProductGrid";
 
 import styled from "styled-components";
 import { addItem, addItemWithQuantity } from "../../actions";
@@ -14,15 +15,17 @@ export const ProductPage = () => {
   const [company, setCompany] = useState(null);
   let [quantity, setQuantity] = useState(1);
   let [inStock, setInStock] = useState([]);
-  let [suggItem1, setSuggItem1] = useState({});
+  let [suggItem1, setSuggItem1] = useState();
   let [suggItem2, setSuggItem2] = useState({});
-  let [suggItem3, setSuggItem3] = useState({});
+  let [suggItem3, setSuggItem3] = useState(null);
 
-  let [suggArray, setSuggArray] = useState([]);
+  let [suggArray, setSuggArray] = useState(null);
   const [sketchyPrice, setSketchyPrice] = useState(null);
   const [sketchyDiscount, setSketchyDiscount] = useState(null);
 
   const shopInv = useSelector((state) => state.user.shopInv);
+
+  const newSugArr = [];
 
   const getSketchyPrice = (price) => {
     let sPrice = Number(price.split("$")[1]);
@@ -57,13 +60,22 @@ export const ProductPage = () => {
   }, [item]);
 
   useEffect(() => {
-    suggArray = [suggItem1, suggItem2, suggItem3];
-  }, [suggItem3]);
+    if (inStock) {
+      setSuggArray([
+        inStock[Math.round(Math.random() * inStock.length)],
+        inStock[Math.round(Math.random() * inStock.length)],
+        inStock[Math.round(Math.random() * inStock.length)],
+      ]);
+    }
+  }, [inStock]);
+
+  console.log(suggArray);
 
   useEffect(() => {
     if (shopInv) {
       setInStock(shopInv.filter((product) => product.numInStock > 0));
     }
+
     setSuggItem1(inStock[Math.round(Math.random() * inStock.length)]);
     setSuggItem2(inStock[Math.round(Math.random() * inStock.length)]);
     setSuggItem3(inStock[Math.round(Math.random() * inStock.length)]);
@@ -179,34 +191,13 @@ export const ProductPage = () => {
               </AddToCart>
             </ItemContent>
           </ItemCard>
-          {suggItem1 && (
+          {suggArray && (
             <>
-              <RelatedItems>Related Items:</RelatedItems>{" "}
-              <SuggestionsWrapper>
-                <SuggestionCard1 tabIndex={0}>
-                  <SuggestionImage
-                    src={suggItem1.imageSrc}
-                    alt={`Image for ${suggItem1.name}`}
-                  ></SuggestionImage>
-                  <SuggestionName>{suggItem1.category}</SuggestionName>
-                </SuggestionCard1>
-                <SuggestionCard2 tabIndex={0}>
-                  {" "}
-                  <SuggestionImage
-                    src={suggItem2.imageSrc}
-                    alt={`Image for ${suggItem2.name}`}
-                  ></SuggestionImage>
-                  <SuggestionName>{suggItem2.category}</SuggestionName>
-                </SuggestionCard2>
-                <SuggestionCard3 tabIndex={0}>
-                  {" "}
-                  <SuggestionImage
-                    src={suggItem3.imageSrc}
-                    alt={`Image for ${suggItem3.name}`}
-                  ></SuggestionImage>
-                  <SuggestionName>{suggItem3.category}</SuggestionName>
-                </SuggestionCard3>
-              </SuggestionsWrapper>
+              <ProductGrid
+                productArray={suggArray}
+                title="Related Items:"
+                style={{ paddingTop: "-108px" }}
+              />
             </>
           )}
         </>
@@ -216,16 +207,18 @@ export const ProductPage = () => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 108px;
+  padding: 108px 0;
   position: relative;
-  @media (min-width: 1024px) {
+  /* @media (min-width: 1024px) {
     padding: 108px 100px 0 100px;
-  }
+  } */
 `;
 
 const ItemCard = styled.div`
   border: 1px solid white;
   border-radius: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
   @media (min-width: 1350px) {
     padding: 0 2vw;
   }
