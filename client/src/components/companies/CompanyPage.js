@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
+import { ProductGrid } from "../products/ProductGrid";
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
 
 export const CompanyPage = () => {
@@ -62,7 +63,6 @@ export const CompanyPage = () => {
     }
   };
 
-
   useEffect(() => {
     getCompany();
   }, []);
@@ -72,7 +72,6 @@ export const CompanyPage = () => {
       getProducts();
     }
   }, [company]);
-
 
   return (
     <Wrapper>
@@ -87,14 +86,9 @@ export const CompanyPage = () => {
       <ShowInStock onClick={toggleShowInStock}>{showInStock? "show all" : "show in stock only"}</ShowInStock>
       </ButtonContainer>
           </CompanyTop>
-          <CompanyProducts>
-          {displayProducts && displayProducts.map(
-              product => {return <Item key={product._id} 
-              item={product}
-
-              />}
-)}
-          </CompanyProducts>
+          <ProductGrid
+          productArray={displayProducts}
+        ></ProductGrid>
           <CompanyBottom>
           </CompanyBottom>
         </>
@@ -102,44 +96,6 @@ export const CompanyPage = () => {
     </Wrapper>
   );
 };
-
-
-const Item = ({item}) => {
-  const {name, price, imageSrc, numInStock} = item;
-  const history = useHistory();
-
-  return (
-  <ItemCard               tabIndex="0"
-  onClick={(e) => {
-    e.stopPropagation();
-    history.push(`/shop/${item._id}`);
-  }} >
-    {item && 
-    <ItemContent>
-      <ProductImage
-        style={{
-          backgroundImage: `url(${item?.imageSrc})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <ProductPriceWrapper>
-          <ProductPrice>{item?.price}</ProductPrice>
-        </ProductPriceWrapper>
-      </ProductImage>
-      <ProductName>{item?.name}</ProductName>
-
-    </ItemContent>
-}
-
-  </ItemCard>);
-
-}
-
-
-
-
-
 
 
 
@@ -155,7 +111,6 @@ const CompanyTop = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
 `;
 
 const CompanyNameAndCountry = styled.div`
@@ -198,9 +153,7 @@ const ShowInStock = styled.button`
     padding: 10px 10px;
     font-size: small;
   }
-
 `;
-
 
 const CompanyBottom = styled.div``;
 
@@ -229,7 +182,6 @@ const ItemCard = styled.div`
     width: 350px;
     height: 300px;
   }
-
 `;
 
 const ItemContent = styled.div`
