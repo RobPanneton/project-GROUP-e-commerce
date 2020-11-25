@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { ProductGrid } from "../products/ProductGrid";
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
@@ -13,7 +14,8 @@ export const CompanyPage = () => {
   const [displayProducts, setDisplayProducts] = useState([])
   const [showInStock, setShowInStock] = useState(false)
 
-  const productsInStock = products.filter(p => p.numInStock > 0);
+  const shopInv = useSelector((state) => state?.user?.shopInv);
+  const productsInStock = shopInv ? shopInv.filter(p => p.numInStock > 0) : []
 
   const toggleShowInStock = () => {
     setShowInStock(!showInStock);
@@ -44,34 +46,15 @@ export const CompanyPage = () => {
     }
   };
 
-  const getProducts = async () => {
-    const filterSettings = { company: company.name };
-    try {
-      const response = await fetch(
-        `/filter/${encodeURI(JSON.stringify(filterSettings))}`
-      );
-      const json = await response.json();
-      if (response.ok) {
-        setProducts(json.data);
-      } else {
-        console.error("error retrieving products");
-        return;
-      }
-    } catch (error) {
-      console.error(error.message);
-      return;
-    }
-  };
-
   useEffect(() => {
     getCompany();
   }, []);
 
   useEffect(() => {
-    if (company) {
-      getProducts();
+    if (company && shopInv) {
+      setProducts(shopInv.filter(p => p.companyId === company._id));
     }
-  }, [company]);
+  }, [company, shopInv]);
 
   return (
     <Wrapper>
@@ -79,7 +62,7 @@ export const CompanyPage = () => {
         <>
           <CompanyTop>
             <CompanyNameAndCountry>
-            <CompanyName href={company.url} target="_blank" >{company.name}</CompanyName>
+            {/* <CompanyName href={company.url} target="_blank" >{company.name}</CompanyName> */}
             <CompanyCountry>{company.country}</CompanyCountry>
             </CompanyNameAndCountry>
             <ButtonContainer>
@@ -88,6 +71,7 @@ export const CompanyPage = () => {
           </CompanyTop>
           <ProductGrid
           productArray={displayProducts}
+          title={company.name}
         ></ProductGrid>
           <CompanyBottom>
           </CompanyBottom>
@@ -98,7 +82,6 @@ export const CompanyPage = () => {
 };
 
 
-
 const Wrapper = styled.div`
   padding-top: ${MARGINS.mobileTop};
   margin-left: ${MARGINS.mobileSides} ;
@@ -107,10 +90,10 @@ const Wrapper = styled.div`
 
 const CompanyTop = styled.div`
   padding-top: 16px;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
 `;
 
 const CompanyNameAndCountry = styled.div`
@@ -121,18 +104,6 @@ const CompanyNameAndCountry = styled.div`
 
 const CompanyCountry = styled.div``;
 
-const CompanyProducts = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-`;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -165,68 +136,3 @@ const CompanyName = styled.a`
   color: ${COLORS.black};
   font-size: xx-large;
 `;
-
-// item css begins here
-const ItemCard = styled.div`
-  border: 1px solid #eaeaee;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  margin-top: 11px;
-  margin-bottom: 11px;
-  width: 300px;
-  height: 300px;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    margin: 11px;
-    width: 350px;
-    height: 300px;
-  }
-`;
-
-const ItemContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 11px 16px;
-`;
-
-const ProductImage = styled.div`
-  border: 1px solid white;
-  height: 190px;
-  width: 190px;
-  border-radius: 12px;
-  text-align: center;
-`;
-
-const ProductPriceWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 11px 11px;
-`;
-
-const ProductPrice = styled.span`
-  color: red;
-  font-weight: 800;
-`;
-
-const ProductName = styled.span`
-  padding-top: 16px;
-  font-weight: 800;
-  text-align: center;
-`;
-
-const AddToCart = styled.button`
-  margin-top: 11px;
-  border: none;
-  border-radius: 24px;
-  padding: 12px 32px;
-`;
-
-const CartBtnText = styled.span`
-  font-size: 15px;
-  font-weight: 600;
-`;
-
-
