@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
+import { MARGINS, BORDER_RADIUS } from "../../constants";
 import aboutPhoto from "../../assets/aboutPhoto.jpg";
 
 export const About = () => {

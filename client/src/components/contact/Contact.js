@@ -1,4 +1,4 @@
-import React, { isValidElement, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { COLORS, MARGINS, BORDER_RADIUS } from "../../constants";
@@ -41,7 +41,12 @@ export const Contact = () => {
   return (
     <Wrapper>
       <HeaderText>Contact us</HeaderText>
-      <SubHead>We would love to hear from you. 😃</SubHead>
+      <SubHead>
+        We would love to hear from you.{" "}
+        <span role="img" aria-label="happy face">
+          😃
+        </span>
+      </SubHead>
       <Form onSubmit={(ev) => formSubmit(ev)}>
         <Name
           placeholder={"Name"}

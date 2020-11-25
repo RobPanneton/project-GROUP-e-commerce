@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from "../../constants";
 import star from "../../assets/ecom-star.svg";
 import { ProductGrid } from "./ProductGrid";
+import { Loader } from "../Loader";
 
 import styled from "styled-components";
 import { addItem, addItemWithQuantity } from "../../actions";
@@ -24,7 +25,7 @@ export const ProductPage = () => {
 
   const getItem = async () => {
     if (shopInv) {
-      setItem(shopInv.find((item) => item._id == id));
+      setItem(shopInv.find((item) => item._id === Number(id)));
     }
     return;
   };
@@ -107,7 +108,7 @@ export const ProductPage = () => {
         if (suggArray.length > 1) setLoadState("loaded");
       }
     }
-  }, [inStock]);
+  }, [inStock, loadState]);
 
   useEffect(() => {
     setLoadState("loading");
@@ -126,27 +127,56 @@ export const ProductPage = () => {
 
   return (
     <Wrapper>
+      {!company && <Loader />}
       {company && (
         <>
           <ItemCard key={item._id}>
             <ItemContent>
-              <ProductName>{item.name}</ProductName>
+              <StockAndPrice>
+                <Stock>{item.numInStock} in stock</Stock>
+                <Price>Price: {item.price}</Price>
+              </StockAndPrice>
               <CatWrapper>
                 <CatButton>{item.category}</CatButton>
+                <SoldBy to={`/companies/${company._id}`}>
+                  <span>Sold by:</span> {company.name}
+                </SoldBy>
               </CatWrapper>
               <ProductImage
                 src={item.imageSrc}
                 alt={`picture of ${item.name} by ${company.name}`}
               ></ProductImage>
+              <ProductName>{item.name}</ProductName>
 
+              <AddToCartMobile
+                disabled={!item?.numInStock}
+                onClick={() => {
+                  dispatch(addItem(item));
+                }}
+              >
+                <CartBtnText>
+                  {!item?.numInStock ? (
+                    <p
+                      style={{
+                        color: "red",
+                        fontWeight: "bold",
+                        fontSize: "13px",
+                      }}
+                    >
+                      out of stock 😞
+                    </p>
+                  ) : (
+                    <p>Add to Cart</p>
+                  )}
+                </CartBtnText>
+              </AddToCartMobile>
+
+              {/*desktop view*/}
               <DesktopDetailsDiv>
                 <ItemName>{item.name}</ItemName>
                 <CompanyDiv>
                   <Sold>Sold by: {"   "} </Sold>
-                  <By exact to={`/companies/${company._id}`}>
-                    {" "}
-                    {company.name}
-                  </By>
+                  <By to={`/companies/${company._id}`}> {company.name}</By>
                 </CompanyDiv>
                 <DesktopPrice>
                   <ActualPrice>{item.price}</ActualPrice>
@@ -178,28 +208,6 @@ export const ProductPage = () => {
                   Add to Cart
                 </DesktopAddToCart>
               </DesktopDetailsDiv>
-
-              <SoldByWrapper>
-                <SoldBy exact to={`/companies/${company._id}`}>
-                  Sold by: {company.name}
-                </SoldBy>
-                <CompanyName></CompanyName>
-              </SoldByWrapper>
-
-              {!item?.numInStock && <OutOfStock>out of stock 😞</OutOfStock>}
-              <StockAndPrice>
-                <Stock>{item.numInStock} in stock</Stock>
-                <Price>Price: {item.price}</Price>
-              </StockAndPrice>
-
-              <AddToCart
-                disabled={!item?.numInStock}
-                onClick={() => {
-                  dispatch(addItem(item));
-                }}
-              >
-                <CartBtnText>Add to Cart</CartBtnText>
-              </AddToCart>
             </ItemContent>
           </ItemCard>
           {suggArray && (
@@ -235,6 +243,32 @@ const ItemCard = styled.div`
   }
 `;
 
+const AddToCartMobile = styled.button`
+  margin-top: 28px;
+  border: 3px solid ${COLORS.navyBlue};
+  border-radius: 24px;
+  padding: 12px 32px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: ${COLORS.babyBlue};
+    color: ${COLORS.white};
+    border: 3px solid ${COLORS.babyBlue};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &:disabled:hover {
+    background: transparent;
+    border: 3px solid ${COLORS.navyBlue};
+  }
+`;
+
 const ItemContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -249,18 +283,19 @@ const ItemContent = styled.div`
 
 const CatWrapper = styled.div`
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
   @media (min-width: 1024px) {
     display: none;
   }
 `;
 
 const CatButton = styled.button`
-  position: absolute;
   border: none;
   padding: 6px 12px;
   font-weight: 600;
-  left: -136px;
-  top: 17px;
 
   @media (min-width: 1024px) {
     display: none;
@@ -271,8 +306,7 @@ const ProductImage = styled.img`
   background-repeat: no-repeat;
   background-size: cover;
   border: 1px solid white;
-  height: 190px;
-  width: 190px;
+  width: 100%;
   border-radius: 12px;
   text-align: center;
   margin-top: 12px;
@@ -323,15 +357,21 @@ const StockAndPrice = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 23px;
+  flex-direction: row-reverse;
+  margin-bottom: 11px;
   @media (min-width: 1024px) {
     display: none;
   }
 `;
 
-const Stock = styled.span``;
+const Stock = styled.span`
+  font-size: 13px;
+`;
 
-const Price = styled.span``;
+const Price = styled.span`
+  font-weight: 700;
+  font-size: 13px;
+`;
 
 const SoldByWrapper = styled.div`
   margin-top: 32px;
@@ -342,10 +382,15 @@ const SoldByWrapper = styled.div`
 `;
 
 const SoldBy = styled(Link)`
-  font-weight: 600;
+  font-weight: 700;
   color: black;
   text-decoration: none;
   cursor: pointer;
+
+  span {
+    font-size: 13px;
+    font-weight: 600;
+  }
 `;
 
 const CompanyName = styled.button``;
