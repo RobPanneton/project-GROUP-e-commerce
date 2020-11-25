@@ -77,7 +77,8 @@ export const ProductPage = () => {
 
   useEffect(() => {
     getItem();
-  }, [shopInv]);
+    window.scrollTo(0, 0);
+  }, [shopInv, id]);
 
   useEffect(() => {
     getCompany();
