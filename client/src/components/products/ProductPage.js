@@ -22,9 +22,9 @@ export const ProductPage = () => {
   const [sketchyPrice, setSketchyPrice] = useState(null);
   const [sketchyDiscount, setSketchyDiscount] = useState(null);
 
-  const getSketchyPrice = (price) => {
-    console.log(price);
+  const shopInv = useSelector((state) => state.user.shopInv);
 
+  const getSketchyPrice = (price) => {
     let sPrice = Number(price.split("$")[1]);
     if (sPrice < 50) {
       sPrice += 10;
@@ -40,7 +40,6 @@ export const ProductPage = () => {
       sPrice += 50;
     }
     setSketchyPrice(sPrice);
-    console.log(sPrice);
   };
 
   const getSketchyDiscount = () => {
@@ -50,10 +49,6 @@ export const ProductPage = () => {
   };
 
   useEffect(() => {
-    console.log(sketchyDiscount);
-  }, [sketchyDiscount]);
-
-  useEffect(() => {
     if (sketchyPrice) getSketchyDiscount();
   }, [sketchyPrice]);
 
@@ -61,13 +56,9 @@ export const ProductPage = () => {
     if (item) getSketchyPrice(item.price);
   }, [item]);
 
-  const shopInv = useSelector((state) => state.user.shopInv);
-
   useEffect(() => {
     suggArray = [suggItem1, suggItem2, suggItem3];
   }, [suggItem3]);
-
-  console.log();
 
   useEffect(() => {
     if (shopInv) {
