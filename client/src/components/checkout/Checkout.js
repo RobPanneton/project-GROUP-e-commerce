@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { BORDER_RADIUS, COLORS, MARGINS } from "../../constants";
 import { getCartItems } from "../../reducers/user-reducer";
 import { emptyCart, removeItem } from "../../actions";
-import { ProductGrid } from "../products/ProductGrid";
 
 const initialForm = {
   name: "",
@@ -181,7 +180,10 @@ export const Checkout = () => {
                         dispatch(removeItem(product));
                       }}
                     >
-                      remove ❌
+                      remove{" "}
+                      <span role="img" aria-label="sad face">
+                        ❌
+                      </span>
                     </RemoveButton>
                   </div>
                 </ProductContainer>
@@ -245,7 +247,12 @@ export const Checkout = () => {
             />
             {success && (
               <SuccessContainer>
-                <p>SUCCESS 🎉</p>
+                <p>
+                  SUCCESS{" "}
+                  <span role="img" aria-label="sad face">
+                    🎉
+                  </span>
+                </p>
               </SuccessContainer>
             )}
             {errorType && (

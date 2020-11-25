@@ -51,7 +51,6 @@ export const userReducer = (state = initialState, action) => {
           return product;
         }
       });
-      console.log(newShopInv3);
       return {
         ...state,
         cart: {

@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import { addItem } from "../../actions";
 
-import { COLORS, BORDER_RADIUS } from "../../constants";
+import { COLORS } from "../../constants";
 
 import star from "../../assets/ecom-star.svg";
 
