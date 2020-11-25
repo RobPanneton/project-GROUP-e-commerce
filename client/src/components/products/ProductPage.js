@@ -83,7 +83,10 @@ export const ProductPage = () => {
                 <ItemName>{item.name}</ItemName>
                 <CompanyDiv>
                   <Sold>Sold by: {"   "} </Sold>
-                  <By> {company.name}</By>
+                  <By exact to={`/companies/${company._id}`}>
+                    {" "}
+                    {company.name}
+                  </By>
                 </CompanyDiv>
                 <DesktopPrice>
                   <ActualPrice>{item.price}</ActualPrice>
@@ -112,7 +115,9 @@ export const ProductPage = () => {
               </DesktopDetailsDiv>
 
               <SoldByWrapper>
-                <SoldBy>Sold by: {company.name}</SoldBy>
+                <SoldBy exact to={`/companies/${company._id}`}>
+                  Sold by: {company.name}
+                </SoldBy>
                 <CompanyName></CompanyName>
               </SoldByWrapper>
 
@@ -298,7 +303,12 @@ const SoldByWrapper = styled.div`
   }
 `;
 
-const SoldBy = styled.span``;
+const SoldBy = styled(Link)`
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+`;
 
 const CompanyName = styled.button``;
 
@@ -331,9 +341,11 @@ const CompanyDiv = styled.div`
 
 const Sold = styled.span``;
 
-const By = styled.span`
+const By = styled(Link)`
   margin-left: 6px;
   font-weight: 600;
+  color: black;
+  text-decoration: none;
   cursor: pointer;
 `;
 
