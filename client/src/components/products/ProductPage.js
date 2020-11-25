@@ -129,9 +129,11 @@ export const ProductPage = () => {
                 </CompanyDiv>
                 <DesktopPrice>
                   <ActualPrice>{item.price}</ActualPrice>
-                  <SketchyPrice> ${sketchyPrice}</SketchyPrice>
+                  <SketchyPrice> ${sketchyPrice.toFixed(2)}</SketchyPrice>
                   <SketchyPriceWrapper>
-                    <SketchyDiscount>{sketchyDiscount}% Off!</SketchyDiscount>
+                    <SketchyDiscount>
+                      {Math.ceil(sketchyDiscount)}% Off!
+                    </SketchyDiscount>
                   </SketchyPriceWrapper>
                 </DesktopPrice>
                 <DesktopQuantity tabIndex={0}>
