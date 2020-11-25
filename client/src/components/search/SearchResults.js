@@ -10,29 +10,30 @@ import { ProductGrid } from "../products/ProductGrid";
 export const SearchResults = ({ searchString }) => {
   const shopInv = useSelector((state) => state?.user?.shopInv);
   const [results, setResults] = useState(null);
+  const [reload, setReload] = useState(false)
   const { searchTerm } = useParams();
 
   useEffect(() => {
     if (shopInv) {
       const searchString = decodeURI(searchTerm);
       const searchResults = search(searchString, shopInv);
-      console.log(searchString);
       setResults(searchResults);
+      console.log(searchString);
     }
-  }, []);
+  }, [searchTerm]);
 
   return (
-    <>
+    <Wrapper>
       {results && (
         <ProductGrid
           productArray={results}
-          title={"Search Results"}
+          title="Search Results"
         ></ProductGrid>
       )}
-    </>
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-
+    padding-top: ${MARGINS.mobileTop};
 `;
