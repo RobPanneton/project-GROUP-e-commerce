@@ -29,7 +29,11 @@ export const ProductPage = () => {
 
   const getSketchyPrice = (price) => {
     let sPrice = Number(price.split("$")[1]);
-    if (sPrice < 50) {
+    if (sPrice < 15) {
+      sPrice += 3;
+    } else if (sPrice >= 15 && sPrice < 25) {
+      sPrice += 5;
+    } else if (sPrice >= 25 && sPrice < 50) {
       sPrice += 10;
     } else if (sPrice >= 50 && sPrice < 100) {
       sPrice += 15;
@@ -47,7 +51,7 @@ export const ProductPage = () => {
 
   const getSketchyDiscount = () => {
     setSketchyDiscount(
-      (sketchyPrice / item.price.split("$")[1] - 1).toFixed(2) * 100
+      ((item.price.split("$")[1] / sketchyPrice - 1) * -100).toFixed(2)
     );
   };
 
