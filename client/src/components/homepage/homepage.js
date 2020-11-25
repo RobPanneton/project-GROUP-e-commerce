@@ -20,7 +20,7 @@ export const Homepage = () => {
         SHOP NOW
       </ShopNowButton>
       <CompaniesButton onClick={() => history.push(`/companies`)}>
-        See our partner companies
+        Check out our brands
       </CompaniesButton>
       <BackgroundWave>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -117,6 +117,7 @@ const CompaniesButton = styled.button`
   border: none;
   color: ${COLORS.babyBlue};
   background: transparent;
+  text-decoration: underline;
   cursor: pointer;
   @media (min-width: 770px) {
     color: ${COLORS.white};

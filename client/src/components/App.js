@@ -64,6 +64,9 @@ function App() {
         <Route path="/search/:searchTerm">
           <SearchResults />
         </Route>
+        <Route path="/search">
+          <SearchResults />
+        </Route>
         <Route>
           <Errorpage />
         </Route>
