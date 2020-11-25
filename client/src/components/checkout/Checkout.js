@@ -41,6 +41,10 @@ export const Checkout = () => {
     });
   }
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handlerName = (e) => {
     setFormData({ ...formData, name: e.target.value });
   };

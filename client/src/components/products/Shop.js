@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { FooterFilter } from "./FooterFilter";
 import { ProductGrid } from "./ProductGrid";
-import { COLORS, BORDER_RADIUS } from "../../constants";
+import { COLORS, BORDER_RADIUS, MARGINS } from "../../constants";
 import { Loader } from "../Loader";
 
 export const Shop = () => {
@@ -26,6 +26,7 @@ export const Shop = () => {
   console.log({ productArr: productArr });
   return (
     <>
+      <Spacer />
       {!productArr && <Loader />}
       {productArr && (
         <ProductGrid productArray={productArr} title="SHOP 🛍️">
@@ -69,6 +70,13 @@ const PageSelectorContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Spacer = styled.div`
+  height: ${MARGINS.mobileTop};
+  width: 100%;
+  background: transparent;
+  z-index: -99999999;
 `;
 
 const PageButton = styled.button`

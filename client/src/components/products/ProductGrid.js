@@ -84,7 +84,7 @@ export const ProductGrid = ({ productArray, title, children }) => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 108px;
+  /* padding-top: 108px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
