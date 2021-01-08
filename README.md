@@ -10,6 +10,12 @@ Node server is RESTful and follows REST principles.
 
 ---
 
+## Meet the Team !
+
+Zach Nugent, Robert Panneton, Gordon Krieger
+
+---
+
 ## Meet your Product Manager!
 
 Zach Nugent
